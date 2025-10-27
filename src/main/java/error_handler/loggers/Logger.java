@@ -1,9 +1,8 @@
 package error_handler.loggers;
 
 import error_handler.ErrorMessage;
-import observer.Subscriber;
+import error_handler.observer.Subscriber;
 
-import java.io.IOException;
 //posto je logger subscriber, vrv update metoda
 //setuje message, tkd ovaj drugi konstruktor moze da se
 //izbrise ako je tako

@@ -1,12 +1,9 @@
 package raf.graffito.dsw.core;
 import error_handler.ErrorMessage;
 import error_handler.ErrorType;
-import observer.MessageGenerator;
-import raf.graffito.dsw.controller.ActionManager;
+import error_handler.observer.MessageGenerator;
 import raf.graffito.dsw.gui.swing.MainFrame;
 
-import java.sql.Date;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class ApplicationFramework {

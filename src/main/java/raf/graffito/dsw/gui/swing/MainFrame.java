@@ -2,7 +2,7 @@ package raf.graffito.dsw.gui.swing;
 
 import error_handler.ErrorMessage;
 import error_handler.ErrorType;
-import observer.Subscriber;
+import error_handler.observer.Subscriber;
 import raf.graffito.dsw.controller.ActionManager;
 
 import javax.swing.*;
