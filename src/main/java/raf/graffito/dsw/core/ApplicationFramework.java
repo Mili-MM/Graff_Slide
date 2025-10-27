@@ -26,10 +26,10 @@ public class ApplicationFramework {
     public void initialize(){
         MessageGenerator msgGen = new MessageGenerator();
         MainFrame mainFrame = MainFrame.getInstance();
-        msgGen.addSubsriber(MainFrame.getInstance());
+        msgGen.addSubscriber(MainFrame.getInstance());
         mainFrame.setVisible(true);
 
         ErrorMessage er = new ErrorMessage("Ovo je test", ErrorType.ERROR, LocalDateTime.now());
-        msgGen.sendNotification(er);
+        msgGen.notifyAll(er);
     }
 }

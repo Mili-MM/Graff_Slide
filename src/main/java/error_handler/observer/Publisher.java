@@ -1,8 +1,6 @@
 package error_handler.observer;
 
-import lombok.Getter;
 
-@Getter
 public interface Publisher {
 
     void notifyAll(Object errorMessage);
