@@ -10,7 +10,7 @@ public class FileLogger extends Logger{
 
     public FileLogger(){
         try {
-            fw = new FileWriter("../log.txt");
+            fw = new FileWriter("..../resources/log.txt");
         } catch (IOException e) {
             e.printStackTrace();
         }
