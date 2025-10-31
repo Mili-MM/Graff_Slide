@@ -1,15 +1,19 @@
 package jtree;
 
+import jtree.confirmationpanel.view.ConfirmPanel;
 import jtree.model.GraffTreeItem;
 import jtree.view.GraffTreeView;
+import raf.graffito.dsw.gui.swing.MainFrame;
 import repository.graff_components.GraffNode;
 import repository.graff_components.GraffNodeComposite;
+import repository.graff_implementation.Presentation;
 import repository.graff_implementation.Project;
 import repository.graff_implementation.Slide;
 import repository.graff_implementation.Workspace;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultTreeModel;
+import java.awt.*;
 import java.util.Random;
 
 public class GraffTreeImplementation implements GraffTree{
@@ -45,8 +49,16 @@ public class GraffTreeImplementation implements GraffTree{
             return new Project("project" + new Random().nextInt(100), "", parent);
         }
         if (parent instanceof Project) {
-            return new Slide("project" + new Random().nextInt(100), "", parent);
+            ConfirmPanel panel = new ConfirmPanel();
+            if (panel.getOpcija1().isSelected()) return new Slide("slide" + new Random().nextInt(100), "", parent);
+            return new Presentation("presentation" + new Random().nextInt(100), "", parent);
+
         }
+        if (parent instanceof Presentation) {
+            return new Slide("slide" + new Random().nextInt(100), "", parent);
+        }
+
         return null;
+
     }
 }

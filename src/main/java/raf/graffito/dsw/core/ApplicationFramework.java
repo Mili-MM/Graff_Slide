@@ -27,7 +27,6 @@ public class ApplicationFramework {
         return instance;
     }
 
-    //TESTIRAO SAM MESSAGEGENERATOR
     public void initialize(GraffRepository graffRepository){
         this.graffRepository = graffRepository;
         MessageGenerator msgGen = new MessageGenerator();
@@ -35,8 +34,5 @@ public class ApplicationFramework {
         mainFrame.initialize();
         msgGen.addSubscriber(MainFrame.getInstance());
         mainFrame.setVisible(true);
-
-        ErrorMessage er = new ErrorMessage("Ovo je test", ErrorType.ERROR, LocalDateTime.now());
-        msgGen.notifyAll(er);
     }
 }
