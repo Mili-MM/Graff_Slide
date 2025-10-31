@@ -1,7 +1,7 @@
-package model.graff_implementation;
+package repository.graff_implementation;
 
-import model.graff_components.GraffNode;
-import model.graff_components.GraffNodeComposite;
+import repository.graff_components.GraffNode;
+import repository.graff_components.GraffNodeComposite;
 
 public class Project extends GraffNodeComposite {
     private int number;

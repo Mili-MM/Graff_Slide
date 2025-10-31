@@ -2,16 +2,21 @@ package raf.graffito.dsw.core;
 import error_handler.ErrorMessage;
 import error_handler.ErrorType;
 import error_handler.observer.MessageGenerator;
+import lombok.Getter;
+import lombok.Setter;
 import raf.graffito.dsw.gui.swing.MainFrame;
+import repository.GraffRepositoryImplementation;
 
 import java.time.LocalDateTime;
-
+@Getter
+@Setter
 public class ApplicationFramework {
     // Buduća polja za model celog projekta
     private static ApplicationFramework instance;
+    private GraffRepository graffRepository;
 
     private ApplicationFramework(){
-        initialize();
+       // initialize();
     }
 
     public static ApplicationFramework getInstance()
@@ -23,7 +28,8 @@ public class ApplicationFramework {
     }
 
     //TESTIRAO SAM MESSAGEGENERATOR
-    public void initialize(){
+    public void initialize(GraffRepository graffRepository){
+        this.graffRepository = graffRepository;
         MessageGenerator msgGen = new MessageGenerator();
         MainFrame mainFrame = MainFrame.getInstance();
         mainFrame.initialize();
