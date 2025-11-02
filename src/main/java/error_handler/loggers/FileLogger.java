@@ -19,7 +19,7 @@ public class FileLogger extends Logger {
         FileWriter fw = null;
         BufferedWriter bw = null;
         try {
-            fw = new FileWriter("./src/main/resources/log.txt", true);
+            fw = new FileWriter("./log.txt", true);
             bw = new BufferedWriter(fw);
             bw.write(super.formatErrorMessage(errorMessage));
             bw.newLine();

@@ -1,8 +1,6 @@
 package raf.graffito.dsw.gui.swing;
 
-import raf.graffito.dsw.controller.AboutUsAction;
-import raf.graffito.dsw.controller.ActionManager;
-import raf.graffito.dsw.controller.ExitAction;
+import raf.graffito.dsw.controller.*;
 
 import javax.swing.*;
 
@@ -16,7 +14,13 @@ public class MyToolBar extends JToolBar {
         setFloatable(false);
         ExitAction exitAction = ac.getExitAction();
         AboutUsAction aboutUsAction = ac.getAboutUsAction();
+        NewChildAction newChildAction = ac.getNewChildAction();
+        RemoveChildAction removeChildAction = ac.getRemoveChildAction();
+        EditNodeAction editNodeAction = ac.getEditNodeAction();
         add(exitAction);
         add(aboutUsAction);
+        add(newChildAction);
+        add(removeChildAction);
+        add(editNodeAction);
     }
 }

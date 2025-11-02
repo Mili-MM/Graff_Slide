@@ -1,10 +1,12 @@
-package model.graff_components;
+package repository.graff_components;
 
 import lombok.Getter;
-import model.graff_implementation.Workspace;
+import lombok.Setter;
+import repository.graff_implementation.Workspace;
 import java.util.List;
 
 @Getter
+@Setter
 public abstract class GraffNode {
     private GraffNode parent;
     private String title;
@@ -37,5 +39,10 @@ public abstract class GraffNode {
     public GraffNode findByName(String name) {
         GraffNode root = getRoot(this);
         return findByName(root, name);
+    }
+
+    @Override
+    public String toString() {
+        return title;
     }
 }
