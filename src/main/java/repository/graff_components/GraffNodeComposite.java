@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 @Getter
 public abstract class GraffNodeComposite extends GraffNode {
-    private List<GraffNode> children = new ArrayList<GraffNode>();
+    private List<GraffNode> children = new ArrayList<>();
 
     public GraffNodeComposite(String title, String author, GraffNode parent) {
         super(title, author, parent);

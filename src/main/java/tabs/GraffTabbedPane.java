@@ -7,7 +7,7 @@ import repository.graff_components.GraffNodeComposite;
 import repository.graff_implementation.Presentation;
 
 import javax.swing.*;
-
+//ova klasa bi vljd trebala da bude ProjectView
 public class GraffTabbedPane extends JTabbedPane implements INodeChangeSubscriber {
 
     public GraffTabbedPane() {
@@ -53,7 +53,7 @@ public class GraffTabbedPane extends JTabbedPane implements INodeChangeSubscribe
                     revalidate();
                     repaint();
                 }
-                else if (panel.getNode().getParent().equals(node)){
+                else if (panel.getNode().getParent().equals(node)) {
                     panel.update(node.getTitle());
                     revalidate();
                     repaint();

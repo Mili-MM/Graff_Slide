@@ -2,17 +2,17 @@ package tabs;
 
 import jtree.model.GraffTreeItem;
 import jtree.nodechangeobserver.INodeChangeSubscriber;
+import jtree.nodechangeobserver.NotificationType;
 import lombok.Getter;
 import repository.graff_components.GraffNode;
 import repository.graff_components.GraffNodeComposite;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 @Getter
+//ova klasa bi vljd trebala da bude PresentationView
 public class GraffPanel extends JPanel {
     private GraffNode node; //ovo je presentation za koji je vezan
     private Color color;
