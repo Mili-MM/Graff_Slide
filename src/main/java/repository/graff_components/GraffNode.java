@@ -3,6 +3,8 @@ package repository.graff_components;
 import lombok.Getter;
 import lombok.Setter;
 import repository.graff_implementation.Workspace;
+
+import java.awt.*;
 import java.util.List;
 import java.util.Objects;
 
@@ -12,6 +14,7 @@ public abstract class GraffNode {
     private GraffNode parent;
     private String title;
     private String author;
+    private GraffNodeType type;
 
     public GraffNode (String title, String author, GraffNode parent) {
         this.parent = parent;
@@ -22,6 +25,10 @@ public abstract class GraffNode {
     private GraffNode getRoot(GraffNode node){
         if (node instanceof Workspace) return node;
         return getRoot(node.getParent());
+    }
+
+    public Color getColor(){
+        return Color.white;
     }
 
     public GraffNode findByName(GraffNode node, String name){
@@ -49,14 +56,15 @@ public abstract class GraffNode {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        GraffNode graffNode = (GraffNode) o;
-        return Objects.equals(parent, graffNode.parent) && Objects.equals(title, graffNode.title) && Objects.equals(author, graffNode.author);
+        if (o instanceof GraffNode) {
+            GraffNode node = (GraffNode) o;
+            return node.getTitle().equals(getTitle()) && node.getAuthor().equals(getAuthor()) && node.getType() == getType();
+        }
+        return false;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(parent, title, author);
+        return Objects.hash(parent, title, author, type);
     }
 }

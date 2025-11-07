@@ -5,6 +5,7 @@ import jtree.nodechangeobserver.NotificationType;
 import lombok.Getter;
 import repository.graff_components.GraffNode;
 import repository.graff_components.GraffNodeComposite;
+import repository.graff_components.GraffNodeType;
 import repository.graff_implementation.Presentation;
 import repository.graff_node_decorator.GraffNodeColorDecorator;
 import repository.graff_node_decorator.GraffNodeDecorator;
@@ -24,16 +25,13 @@ public class GraffTabbedPane extends JTabbedPane implements INodeChangeSubscribe
 
     public void addTabs(GraffNode node){
         //node mora da bude project
-        GraffNode unwrap = node;
-        if (unwrap instanceof GraffNodeDecorator) unwrap = ((GraffNodeDecorator) unwrap).getBaseGraffNode();
-        for (GraffNode child : ((GraffNodeComposite) unwrap).getChildren()){
-            if (child instanceof Presentation){
+        for (GraffNode child : ((GraffNodeComposite) node).getChildren()){
+            if (child.getType() == GraffNodeType.PRESENTATION){
                 GraffPanel panel = new GraffPanel(child);
-                Color color = ((GraffNodeColorDecorator) node).getColor();
+                Color color = node.getColor();
                 panel.setColor(color);
                 reserverColors.add(color);
                 addTab(panel);
-                //System.out.println(child);
             }
         }
     }
@@ -82,6 +80,7 @@ public class GraffTabbedPane extends JTabbedPane implements INodeChangeSubscribe
                 removeTabAt(indexOfTab(node.getTitle()));
             }
             else if (node.equals(getActiveProject())) {
+                reserverColors.remove(getActiveProject().getColor());
                 removeAll();
             }
             revalidate();
@@ -89,7 +88,9 @@ public class GraffTabbedPane extends JTabbedPane implements INodeChangeSubscribe
         }
         else if (type == NotificationType.ADD) {
             if (node.getParent().equals(getActiveProject())) {
-                addTab(new GraffPanel(node));
+                GraffPanel panel = new GraffPanel(node);
+                panel.setColor(node.getParent().getColor());
+                addTab(panel);
                 revalidate();
                 repaint();
             }

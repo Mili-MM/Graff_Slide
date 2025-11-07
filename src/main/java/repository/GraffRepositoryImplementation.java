@@ -13,7 +13,7 @@ public class GraffRepositoryImplementation implements GraffRepository {
     private Workspace workspace; //root
 
     public GraffRepositoryImplementation() {
-        workspace = new Workspace("Workspace", null);
+        workspace = new Workspace("Workspace", "",null);
     }
     @Override
     public Workspace getWorkspace() {

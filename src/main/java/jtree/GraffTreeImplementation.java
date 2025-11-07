@@ -10,6 +10,7 @@ import jtree.view.GraffTreeView;
 import repository.graff_components.GraffLeaf;
 import repository.graff_components.GraffNode;
 import repository.graff_components.GraffNodeComposite;
+import repository.graff_components.GraffNodeType;
 import repository.graff_implementation.Presentation;
 import repository.graff_implementation.Project;
 import repository.graff_implementation.Slide;
@@ -39,14 +40,10 @@ public class GraffTreeImplementation implements GraffTree, INodeChangePublisher 
 
     @Override
     public void addChild(GraffTreeItem parent) {
-        //unwrap od parent-a
-        GraffNode parentGraffNode = parent.getGraffNode();
-        if (parentGraffNode instanceof GraffNodeDecorator)
-            parentGraffNode = ((GraffNodeDecorator) parentGraffNode).getBaseGraffNode();
-
         if (((parent.getGraffNode()) instanceof GraffLeaf)) return;
-        GraffNode child = createChild(parentGraffNode);
-        if (parent.getGraffNode() instanceof Workspace) {
+
+        GraffNode child = createChild(parent.getGraffNode());
+        if (parent.getGraffNode().getType() == GraffNodeType.WORKSPACE) {
             ColorChoserPanel colorChoserPanel = new ColorChoserPanel();
             Color color = new Color(
                     Integer.parseInt(colorChoserPanel.getRField().getText()),
@@ -54,29 +51,24 @@ public class GraffTreeImplementation implements GraffTree, INodeChangePublisher 
                     Integer.parseInt(colorChoserPanel.getBField().getText())
             );
 
-
             child = new GraffNodeColorDecorator(child, color);
         }
         updateAll(child, NotificationType.ADD);
         parent.add(new GraffTreeItem(child));
 
-        ((GraffNodeComposite)parentGraffNode).addChild(child);
+        ((GraffNodeComposite) parent.getGraffNode()).addChild(child);
         graffTreeView.expandPath(graffTreeView.getSelectionPath());
         SwingUtilities.updateComponentTreeUI(graffTreeView);
     }
 
     @Override
     public void removeNode(GraffTreeItem node) {
-        if (node.getGraffNode() instanceof Workspace) return;
+        if (node.getGraffNode().getType() == GraffNodeType.WORKSPACE) return;
         GraffTreeItem parent = (GraffTreeItem) node.getParent();
 
-        GraffNode parentGraffNode = parent.getGraffNode();
-        if (parentGraffNode instanceof GraffNodeDecorator)
-            parentGraffNode = ((GraffNodeDecorator) parentGraffNode).getBaseGraffNode();
-
-        updateAll(parentGraffNode, NotificationType.DELETE);
+        updateAll(node.getGraffNode(), NotificationType.DELETE);
         parent.remove(node);
-        ((GraffNodeComposite) parentGraffNode).removeChild(parentGraffNode);
+        ((GraffNodeComposite)parent.getGraffNode()).removeChild(node.getGraffNode());
         graffTreeView.expandPath(graffTreeView.getSelectionPath());
         SwingUtilities.updateComponentTreeUI(graffTreeView);
     }
@@ -95,22 +87,20 @@ public class GraffTreeImplementation implements GraffTree, INodeChangePublisher 
     }
     @Override
     public GraffNode createChild(GraffNode parent) {
-        if (parent instanceof GraffNodeDecorator) parent = ((GraffNodeDecorator) parent).getBaseGraffNode();
-        if (parent instanceof Workspace) {
+        if (parent.getType() == GraffNodeType.WORKSPACE) {
             return new Project("project" + new Random().nextInt(100), "", parent);
         }
-        if (parent instanceof Project) {
+        if (parent.getType() == GraffNodeType.PROJECT) {
             ConfirmPanel panel = new ConfirmPanel();
             if (panel.getOpcija1().isSelected()) return new Slide("slide" + new Random().nextInt(100), "", parent);
             return new Presentation("presentation" + new Random().nextInt(100), "", parent);
 
         }
-        if (parent instanceof Presentation) {
+        if (parent.getType() == GraffNodeType.PRESENTATION) {
             return new Slide("slide" + new Random().nextInt(100), "", parent);
         }
 
         return null;
-
     }
 
     @Override

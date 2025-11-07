@@ -11,4 +11,9 @@ public class GraffNodeColorDecorator extends GraffNodeDecorator{
         super(graffNode);
         this.color = color;
     }
+
+    @Override
+    public Color getColor() {
+        return color;
+    }
 }
