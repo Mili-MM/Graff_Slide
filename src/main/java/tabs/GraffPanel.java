@@ -17,26 +17,46 @@ public class GraffPanel extends JPanel {
     private Label label1;
     private Label label2;
     private Label label3;
-    @Setter
     private SlideView slideView;
+    private JPanel centerPanel;
 
     public GraffPanel(GraffNode node) {
         super();
         this.node = node;
 
+        setLayout(new BorderLayout());
+
         label1 = new Label("Presentation: " + node.getTitle()+ " ");
         label2 = new Label("Project: " + node.getParent().getTitle());
         label3 = new Label("Author: " + node.getAuthor());
-        add(label1);
-        add(label2);
-        add(label3);
+        JPanel northPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        northPanel.add(label1);
+        northPanel.add(label2);
+        northPanel.add(label3);
+
+        add(northPanel, BorderLayout.NORTH);
+
+        SlideElementsBox slideElementsBox = new SlideElementsBox();
+        add(slideElementsBox, BorderLayout.EAST);
 
     }
 
     public void setSlideView(SlideView slideView) {
-        if (this.slideView != null) remove(this.slideView);
+        // Ukloni prethodni panel
+        if (centerPanel != null) {
+            remove(centerPanel);
+        }
+
         this.slideView = slideView;
-        add(slideView);
+
+        // Novi panel sa fiksnom veličinom i centriranjem
+        centerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        centerPanel.add(slideView);
+
+        add(centerPanel, BorderLayout.CENTER);
+
+        revalidate(); // da layout ažurira
+        repaint();
     }
 
     @Override

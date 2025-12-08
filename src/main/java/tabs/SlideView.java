@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class SlideView extends JPanel {
     private String text;
-    private static Dimension size = new Dimension(350, 250);
+    private static final Dimension size = new Dimension(650, 450);
 
     public SlideView(String text) {
         this.text = text;
@@ -14,6 +14,7 @@ public class SlideView extends JPanel {
         setPreferredSize(size);
         setMinimumSize(size);
         setMaximumSize(size);
+        setBackground(Color.RED);
         setBorder(BorderFactory.createLineBorder(Color.black));
     }
 
