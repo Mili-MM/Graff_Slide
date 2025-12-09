@@ -35,11 +35,13 @@ public abstract class GraffNodeComposite extends GraffNode {
     }
 
     public boolean addChild(GraffNode child) {
-        if (addChildValidation(child)) {
-            children.add(child);
-            return true;
-        }
-        return false;
+        children.add(child);
+        return true;
+//        if (addChildValidation(child)) {
+//            children.add(child);
+//            return true;
+//        }
+//        return false;
     }
 
     public boolean removeChild(GraffNode child) {

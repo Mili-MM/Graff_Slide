@@ -3,22 +3,27 @@ package tabs;
 import lombok.Getter;
 import lombok.Setter;
 import repository.graff_components.GraffNode;
+import tabs.state.StateManager;
+import tabs.state.slide.SlideController;
+import tabs.state.slide.states_selector.SlideStatesController;
+import tabs.state.slide.states_selector.SlideStatesView;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Random;
 
 @Getter
-@Setter
 //ova klasa bi vljd trebala da bude PresentationView
 public class GraffPanel extends JPanel {
     private GraffNode node; //ovo je presentation za koji je vezan
+    @Setter
     private Color color;
     private Label label1;
     private Label label2;
     private Label label3;
-    private SlideView slideView;
     private JPanel centerPanel;
+    private SlideElementsBox slideElementsBox;
+    @Getter
+    private StateManager stateManager = new StateManager();
 
     public GraffPanel(GraffNode node) {
         super();
@@ -29,29 +34,35 @@ public class GraffPanel extends JPanel {
         label1 = new Label("Presentation: " + node.getTitle()+ " ");
         label2 = new Label("Project: " + node.getParent().getTitle());
         label3 = new Label("Author: " + node.getAuthor());
-        JPanel northPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        northPanel.add(label1);
-        northPanel.add(label2);
-        northPanel.add(label3);
+        JPanel northPanel = new JPanel(new BorderLayout());
+        JPanel textPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        textPanel.add(label1);
+        textPanel.add(label2);
+        textPanel.add(label3);
+        northPanel.add(textPanel, BorderLayout.CENTER);
+
+        SlideStatesController slideStatesController = new SlideStatesController(stateManager);
+        northPanel.add(slideStatesController.getView(), BorderLayout.NORTH);
 
         add(northPanel, BorderLayout.NORTH);
 
-        SlideElementsBox slideElementsBox = new SlideElementsBox();
+        slideElementsBox = new SlideElementsBox();
         add(slideElementsBox, BorderLayout.EAST);
+
 
     }
 
-    public void setSlideView(SlideView slideView) {
+    public void setSlideController(SlideController slideController) {
         // Ukloni prethodni panel
         if (centerPanel != null) {
             remove(centerPanel);
         }
 
-        this.slideView = slideView;
+        slideElementsBox.addController(slideController);
 
         // Novi panel sa fiksnom veličinom i centriranjem
         centerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-        centerPanel.add(slideView);
+        centerPanel.add(slideController.getSlideView());
 
         add(centerPanel, BorderLayout.CENTER);
 

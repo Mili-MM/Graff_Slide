@@ -27,4 +27,23 @@ public class ImageElement extends GraffSlideElement {
                 image);
         return copy;
     }
+
+    public void move(int dx, int dy){
+        Point location = super.getLocation();
+        location.translate(dx, dy);
+        super.setLocation(location);
+    }
+
+    public void rotate90(boolean clockwise) {
+        double angle = Math.toRadians(clockwise ? 90 : -90); // [cite: 89]
+        double rotation = super.getRotacija();
+        rotation += angle;
+        super.setRotacija(rotation);
+    }
+
+    public void resize(int dx, int dy) {
+        Dimension dimension = getDimension();
+        dimension.width = Math.max(10, dimension.width + dx);
+        dimension.height = Math.max(10, dimension.height + dy);
+    }
 }
