@@ -1,0 +1,37 @@
+package tabs.state.state_implementation;
+
+import jtree.GraffTreeImplementation;
+import raf.graffito.dsw.gui.swing.MainFrame;
+import repository.graff_components.GraffNodeComposite;
+import tabs.elements.element_implementation.TextElement;
+import tabs.state.ToolState;
+import tabs.state.slide.SlideController;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
+
+public class TextState implements ToolState {
+    @Override
+    public void mousePressed(MouseEvent e, SlideController controller) {
+        TextElement te = new TextElement("text", controller.getSlide(), new Point(e.getX(), e.getY()), new Dimension(50, 50));
+        String input = JOptionPane.showInputDialog("Unesite tekst:");
+
+        if (input != null && !input.isEmpty()) {
+            te.setText(input);
+        }
+        ((GraffNodeComposite)controller.getSlide()).addChild(te);
+        ((GraffTreeImplementation) MainFrame.getInstance().getTree()).addChild(controller.getSlide(), te);
+    }
+
+
+    @Override
+    public void mouseDragged(MouseEvent e, SlideController slideController) {}
+
+    @Override
+    public void mouseReleased(MouseEvent e, SlideController slideController) {}
+
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent e, SlideController slideController) {}
+}

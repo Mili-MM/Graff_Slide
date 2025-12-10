@@ -12,6 +12,7 @@ public class StateManager {
     private ToolState rotate;
     private ToolState select;
     private ToolState zoom;
+    private ToolState text;
 
     public StateManager() {
         init();
@@ -24,6 +25,7 @@ public class StateManager {
         rotate = new RotateState();
         select = new SelectState();
         zoom = new ZoomState();
+        text = new TextState();
         currentState = select;
     }
 
@@ -44,5 +46,9 @@ public class StateManager {
     }
     public void setZoomState(){
         currentState = zoom;
+    }
+
+    public void setTextState(){
+        currentState = text;
     }
 }

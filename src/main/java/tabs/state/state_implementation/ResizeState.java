@@ -3,6 +3,7 @@ package tabs.state.state_implementation;
 import repository.graff_components.GraffNode;
 import repository.graff_components.GraffNodeComposite;
 import tabs.elements.GraffSlideElement;
+import tabs.elements.element_implementation.TextElement;
 import tabs.state.ToolState;
 import tabs.state.slide.SlideController;
 
@@ -37,25 +38,34 @@ public class ResizeState implements ToolState {
             GraffSlideElement element = (GraffSlideElement) child;
 
             if (element.isSelected()) {
-                int newWidth = element.getDimension().width + dx;
-                int newHeight = element.getDimension().height + dy;
+                if (element instanceof TextElement te) {
 
-                // ograniči minimum dimenzija (npr. 10x10)
-                newWidth = Math.max(newWidth, 10);
-                newHeight = Math.max(newHeight, 10);
+                    int newFontSize = te.getFontSize() + dy / 2;
+                    newFontSize = Math.max(8, newFontSize);
 
-                // ograniči da element ne izađe iz prozora
-                int x = element.getLocation().x;
-                int y = element.getLocation().y;
-
-                if (x + newWidth > viewWidth) {
-                    newWidth = viewWidth - x;
+                    te.setFontSize(newFontSize);
                 }
-                if (y + newHeight > viewHeight) {
-                    newHeight = viewHeight - y;
-                }
+                else {
+                    int newWidth = element.getDimension().width + dx;
+                    int newHeight = element.getDimension().height + dy;
 
-                element.setDimension(new Dimension(newWidth, newHeight));
+                    // ograniči minimum dimenzija (npr. 10x10)
+                    newWidth = Math.max(newWidth, 10);
+                    newHeight = Math.max(newHeight, 10);
+
+                    // ograniči da element ne izađe iz prozora
+                    int x = element.getLocation().x;
+                    int y = element.getLocation().y;
+
+                    if (x + newWidth > viewWidth) {
+                        newWidth = viewWidth - x;
+                    }
+                    if (y + newHeight > viewHeight) {
+                        newHeight = viewHeight - y;
+                    }
+
+                    element.setDimension(new Dimension(newWidth, newHeight));
+                }
             }
         }
 

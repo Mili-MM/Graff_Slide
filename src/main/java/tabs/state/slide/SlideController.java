@@ -104,7 +104,8 @@ public class SlideController implements MouseListener, MouseMotionListener, Acti
                 addLogo();
                 break;
             case "text":
-                addText();
+                System.out.println("text");
+                stateManager.setTextState();
                 break;
         }
 
@@ -142,23 +143,6 @@ public class SlideController implements MouseListener, MouseMotionListener, Acti
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-    }
-
-    private void addText(){
-        System.out.println("text");
-        // 1. Napravi model elementa
-        TextElement element = new TextElement("logo", slide, new Point(100, 100), new Dimension(100, 100), "");
-
-        ((GraffTreeImplementation)MainFrame.getInstance().getTree()).addChild(slide, element);
-        ((GraffNodeComposite) slide).addChild(element);
-        slideView.setComponents(
-                new ArrayList<>(((GraffNodeComposite) slide).getChildren())
-        );
-
-        // 2. Prikaz editor polja na slajdu
-        slideView.showTextEditor(element);
-
-        slideView.repaint();
     }
 
 }

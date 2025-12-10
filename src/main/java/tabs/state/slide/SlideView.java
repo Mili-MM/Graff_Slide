@@ -10,11 +10,10 @@ import tabs.elements.element_implementation.TextElement;
 import tabs.elements.painters.ImagePainter;
 import tabs.elements.painters.LogoPainter;
 import tabs.elements.painters.Painter;
+import tabs.elements.painters.TextPainter;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
@@ -24,7 +23,6 @@ public class SlideView extends JPanel {
     private AffineTransform currentTransform = new AffineTransform();
     @Setter
     private ArrayList<GraffNode> components = new ArrayList<>();
-    private JTextField textEditor = null;
 
     public SlideView() {
         setPreferredSize(size);
@@ -51,6 +49,9 @@ public class SlideView extends JPanel {
             } else if (element instanceof LogoElement) {
                 painter = new LogoPainter((LogoElement) element);
             }
+            else if (element instanceof TextElement) {
+                painter = new TextPainter((TextElement) element);
+            }
             // Dodaj ostale tipove elemenata po potrebi
 
             if (painter != null) {
@@ -62,52 +63,6 @@ public class SlideView extends JPanel {
     public void setScaleFactor(double scaleFactor) {
         currentTransform = new AffineTransform();
         currentTransform.scale(scaleFactor, scaleFactor);
-    }
-
-
-    public void showTextEditor(TextElement element) {
-        // Ako već postoji editor, ukloni ga pre kreiranja novog
-        if (textEditor != null) {
-            remove(textEditor);
-            textEditor = null;
-        }
-
-        textEditor = new JTextField();
-        textEditor.setText(element.getText());
-        textEditor.setBounds(
-                element.getLocation().x,
-                element.getLocation().y,
-                element.getDimension().width,
-                element.getDimension().height
-        );
-
-        add(textEditor);
-        textEditor.requestFocus();
-
-        // Kada korisnik pritisne Enter
-        textEditor.addActionListener(e -> saveTextAndRemoveEditor(element));
-
-        // Kada polje izgubi fokus
-        textEditor.addFocusListener(new java.awt.event.FocusAdapter() {
-            @Override
-            public void focusLost(java.awt.event.FocusEvent e) {
-                saveTextAndRemoveEditor(element);
-            }
-        });
-
-        revalidate();
-        repaint();
-    }
-
-    // --- Metod za čuvanje i uklanjanje editor-a ---
-    private void saveTextAndRemoveEditor(TextElement element) {
-        if (textEditor != null) {  // <- sigurna provera
-            element.setText(textEditor.getText());
-            remove(textEditor);
-            textEditor = null;
-            revalidate();
-            repaint();
-        }
     }
 
 
