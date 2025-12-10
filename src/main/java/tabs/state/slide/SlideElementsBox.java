@@ -1,4 +1,4 @@
-package tabs;
+package tabs.state.slide;
 
 import javax.swing.*;
 import java.awt.*;

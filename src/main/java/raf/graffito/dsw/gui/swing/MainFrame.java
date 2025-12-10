@@ -37,6 +37,7 @@ public class MainFrame extends JFrame implements Subscriber {
     public void initialize() {
         tree = new GraffTreeImplementation();
         workspace = tree.generateTree(ApplicationFramework.getInstance().getGraffRepository().getWorkspace());
+
         JPanel desktop = new JPanel();
         JScrollPane scroll = new JScrollPane(workspace);
         scroll.setMinimumSize(new Dimension(200, 149));

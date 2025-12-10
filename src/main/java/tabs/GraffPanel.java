@@ -5,8 +5,8 @@ import lombok.Setter;
 import repository.graff_components.GraffNode;
 import tabs.state.StateManager;
 import tabs.state.slide.SlideController;
+import tabs.state.slide.SlideElementsBox;
 import tabs.state.slide.states_selector.SlideStatesController;
-import tabs.state.slide.states_selector.SlideStatesView;
 
 import javax.swing.*;
 import java.awt.*;

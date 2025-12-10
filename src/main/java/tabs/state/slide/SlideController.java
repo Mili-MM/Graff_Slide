@@ -1,18 +1,27 @@
 package tabs.state.slide;
 
+import com.sun.tools.javac.Main;
+import jtree.GraffTree;
+import jtree.GraffTreeImplementation;
 import lombok.Setter;
+import raf.graffito.dsw.gui.swing.MainFrame;
 import repository.graff_components.GraffNode;
 import repository.graff_components.GraffNodeComposite;
 import tabs.elements.element_implementation.ImageElement;
 import lombok.Getter;
+import tabs.elements.element_implementation.LogoElement;
+import tabs.elements.element_implementation.TextElement;
+import tabs.elements.painters.LogoPainter;
 import tabs.state.StateManager;
 import tabs.state.state_implementation.SelectState;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Objects;
 
 @Getter
@@ -92,10 +101,10 @@ public class SlideController implements MouseListener, MouseMotionListener, Acti
                 addImage("patrik.png");
                 break;
             case "logo":
-
+                addLogo();
                 break;
             case "text":
-
+                addText();
                 break;
         }
 
@@ -105,7 +114,8 @@ public class SlideController implements MouseListener, MouseMotionListener, Acti
     private void addImage(String fileName) {
         try {
             BufferedImage img = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/" + fileName)));
-            ImageElement el = new ImageElement("img", slide, new Point(20, 20), new Dimension(100, 100), img);
+            GraffNode el = new ImageElement("img", slide, new Point(50, 50), new Dimension(100, 100), img);
+            ((GraffTreeImplementation)MainFrame.getInstance().getTree()).addChild(slide, el);
             ((GraffNodeComposite) slide).addChild(el);
             slideView.setComponents(
                     new ArrayList<>(((GraffNodeComposite) slide).getChildren())
@@ -117,4 +127,38 @@ public class SlideController implements MouseListener, MouseMotionListener, Acti
             ex.printStackTrace();
         }
     }
+
+    private void addLogo() {
+        try {
+            GraffNode logoElement = new LogoElement("logo", slide, new Point(100, 100), new Dimension(100, 100));
+            ((GraffTreeImplementation)MainFrame.getInstance().getTree()).addChild(slide, logoElement);
+            ((GraffNodeComposite) slide).addChild(logoElement);
+            slideView.setComponents(
+                    new ArrayList<>(((GraffNodeComposite) slide).getChildren())
+            );
+
+            slideView.validate();
+            slideView.repaint();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void addText(){
+        System.out.println("text");
+        // 1. Napravi model elementa
+        TextElement element = new TextElement("logo", slide, new Point(100, 100), new Dimension(100, 100), "");
+
+        ((GraffTreeImplementation)MainFrame.getInstance().getTree()).addChild(slide, element);
+        ((GraffNodeComposite) slide).addChild(element);
+        slideView.setComponents(
+                new ArrayList<>(((GraffNodeComposite) slide).getChildren())
+        );
+
+        // 2. Prikaz editor polja na slajdu
+        slideView.showTextEditor(element);
+
+        slideView.repaint();
+    }
+
 }

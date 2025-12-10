@@ -1,10 +1,12 @@
 package tabs.elements.element_implementation;
 
+import lombok.Getter;
+import lombok.Setter;
 import repository.graff_components.GraffNode;
 import tabs.elements.GraffSlideElement;
 
 import java.awt.*;
-
+@Getter @Setter
 public class TextElement extends GraffSlideElement {
     private String text;
 

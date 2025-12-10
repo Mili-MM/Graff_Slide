@@ -1,5 +1,8 @@
 package tabs.state.state_implementation;
 
+import jtree.GraffTree;
+import jtree.GraffTreeImplementation;
+import raf.graffito.dsw.gui.swing.MainFrame;
 import repository.graff_components.GraffNode;
 import repository.graff_components.GraffNodeComposite;
 import tabs.elements.GraffSlideElement;
@@ -17,7 +20,6 @@ public class DeleteState implements ToolState {
 
     @Override
     public void mousePressed(MouseEvent e, SlideController slideController) {
-        AffineTransform currentTransform1 = slideController.getSlideView().getCurrentTransform();
         for (GraffNode child : ((GraffNodeComposite) slideController.getSlide()).getChildren()) {
             GraffSlideElement element = (GraffSlideElement) child;
             AffineTransform currentTransform = slideController.getSlideView().getCurrentTransform();
@@ -29,6 +31,7 @@ public class DeleteState implements ToolState {
                     + element.getDimension().getHeight()){
 
                 ((GraffNodeComposite) slideController.getSlide()).removeChild(element);
+                ((GraffTreeImplementation)MainFrame.getInstance().getTree()).removeChild(slideController.getSlide(), element);
                 break;
             }
         }

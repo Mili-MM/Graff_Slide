@@ -1,5 +1,6 @@
 package repository;
 
+import jtree.model.GraffTreeItem;
 import raf.graffito.dsw.core.GraffRepository;
 import repository.graff_components.GraffNode;
 import repository.graff_components.GraffNodeComposite;

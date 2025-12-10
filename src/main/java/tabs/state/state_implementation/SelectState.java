@@ -5,7 +5,6 @@ import repository.graff_components.GraffNodeComposite;
 import tabs.elements.GraffSlideElement;
 import tabs.state.ToolState;
 import tabs.state.slide.SlideController;
-import tabs.state.slide.SlideView;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -13,19 +12,18 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.geom.AffineTransform;
 
 public class SelectState implements ToolState {
-    private AffineTransform currentTransform;
 
     @Override
     public void mousePressed(MouseEvent e, SlideController slideController) {
-        currentTransform = slideController.getSlideView().getCurrentTransform();
+        AffineTransform currentTransform = slideController.getSlideView().getCurrentTransform();
         for (GraffNode child : ((GraffNodeComposite) slideController.getSlide()).getChildren()) {
             GraffSlideElement element = (GraffSlideElement) child;
             Point transformedPoint = transformPoint(e.getPoint(), currentTransform);
 
-            if (element.getLocation().getX() <= transformedPoint.x && transformedPoint.x <= element.getLocation().getX()
-                    + element.getDimension().getWidth() &&
-                    element.getLocation().getY() <= transformedPoint.y && transformedPoint.y <= element.getLocation().getY()
-                    + element.getDimension().getHeight()){
+            if (element.getLocation().getX() <= transformedPoint.x
+                    && transformedPoint.x <= element.getLocation().getX() + element.getDimension().getWidth()
+                    && element.getLocation().getY() <= transformedPoint.y
+                    && transformedPoint.y <= element.getLocation().getY() + element.getDimension().getHeight()){
 
                 element.setSelected(!element.isSelected());
                 break;
