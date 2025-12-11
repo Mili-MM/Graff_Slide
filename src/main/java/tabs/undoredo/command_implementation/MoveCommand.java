@@ -1,30 +1,36 @@
 package tabs.undoredo.command_implementation;
 
+import lombok.Setter;
 import tabs.elements.GraffSlideElement;
 import tabs.undoredo.Command;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class MoveCommand implements Command {
 
-    private GraffSlideElement element;
-    private Point oldLocation;
-    private Point newLocation;
+    private ArrayList<GraffSlideElement> elements = new ArrayList<>();
+    private ArrayList<Point> oldLocations = new ArrayList<>();
+    private ArrayList<Point> newLocations = new ArrayList<>();
 
-    public MoveCommand(GraffSlideElement element, Point oldLocation, Point newLocation) {
-        this.element = element;
-        this.oldLocation = oldLocation;
-        this.newLocation = newLocation;
+    public void addElement(GraffSlideElement element, Point newLocation, Point oldLocation) {
+        elements.add(element);
+        newLocations.add(newLocation);
+        oldLocations.add(oldLocation);
     }
 
     @Override
     public void execute() {
-        element.setLocation(new Point(newLocation));
+        for (int i=0; i<elements.size(); i++) {
+            elements.get(i).setLocation(newLocations.get(i));
+        }
     }
 
     @Override
     public void undo() {
-        element.setLocation(new Point(oldLocation));
+        for (int i=0; i<elements.size(); i++) {
+            elements.get(i).setLocation(oldLocations.get(i));
+        }
     }
 }
 

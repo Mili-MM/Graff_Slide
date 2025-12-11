@@ -1,13 +1,5 @@
 package tabs.undoredo;
 
-import jtree.GraffTreeImplementation;
-import raf.graffito.dsw.gui.swing.MainFrame;
-import repository.graff_components.GraffNode;
-import tabs.GraffPanel;
-import tabs.state.slide.SlideController;
-import tabs.undoredo.command_implementation.AddCommand;
-import tabs.undoredo.command_implementation.DeleteCommand;
-
 import java.util.Stack;
 
 public class CommandManager {

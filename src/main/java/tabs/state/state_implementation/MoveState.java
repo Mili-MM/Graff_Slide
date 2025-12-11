@@ -5,20 +5,29 @@ import repository.graff_components.GraffNodeComposite;
 import tabs.elements.GraffSlideElement;
 import tabs.state.ToolState;
 import tabs.state.slide.SlideController;
+import tabs.undoredo.command_implementation.MoveCommand;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.geom.AffineTransform;
+import java.util.ArrayList;
 
 public class MoveState implements ToolState {
-
+    private ArrayList<Point> oldLocations = new ArrayList<>();
     private Point lastPoint;
 
     @Override
     public void mousePressed(MouseEvent e, SlideController slideController) {
+        oldLocations.clear();
         AffineTransform currentTransform = slideController.getSlideView().getCurrentTransform();
         lastPoint = transformPoint(e.getPoint(), currentTransform);
+        for (GraffNode child : ((GraffNodeComposite) slideController.getSlide()).getChildren()) {
+            GraffSlideElement element = (GraffSlideElement) child;
+            if (element.isSelected()) {
+                oldLocations.add(new Point(element.getLocation()));
+            }
+        }
     }
 
     @Override
@@ -27,7 +36,6 @@ public class MoveState implements ToolState {
         Point now = transformPoint(e.getPoint(), currentTransform);
         int dx = now.x - lastPoint.x;
         int dy = now.y - lastPoint.y;
-
         for (GraffNode child : ((GraffNodeComposite) slideController.getSlide()).getChildren()) {
             GraffSlideElement element = (GraffSlideElement) child;
             if (element.isSelected()) {
@@ -57,6 +65,16 @@ public class MoveState implements ToolState {
     @Override
     public void mouseReleased(MouseEvent e, SlideController slideController) {
         lastPoint = null;
+        int p = 0;
+        MoveCommand moveCommand = new MoveCommand();
+        for (GraffNode child : ((GraffNodeComposite) slideController.getSlide()).getChildren()) {
+            GraffSlideElement element = (GraffSlideElement) child;
+            if (element.isSelected()) {
+                moveCommand.addElement(element, element.getLocation(), oldLocations.get(p));
+                p++;
+            }
+        }
+        slideController.getCommandManager().executeCommand(moveCommand);
     }
 
     @Override

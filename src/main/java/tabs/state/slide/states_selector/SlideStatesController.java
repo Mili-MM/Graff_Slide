@@ -9,7 +9,9 @@ import tabs.elements.GraffSlideElement;
 import tabs.state.StateManager;
 import tabs.state.slide.SlideController;
 import tabs.undoredo.CommandManager;
+import tabs.undoredo.command_implementation.RotateCommand;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -68,13 +70,25 @@ public class SlideStatesController implements ActionListener {
 
     private void handleRotate(boolean clockwise){
         GraffPanel selected = (GraffPanel) MainFrame.getInstance().getTabbedPane().getSelectedComponent();
+        ArrayList<Double> oldAngles = new ArrayList<>();
+        for (GraffNode node : ((GraffNodeComposite)selected.getSlideController().getSlide()).getChildren()) {
+            GraffSlideElement element = (GraffSlideElement) node;
+            if (element.isSelected()){
+                oldAngles.add(new Double(element.getRotacija()));
+            }
+        }
+        RotateCommand rotateCommand = new RotateCommand();
+        int p = 0;
         for (GraffNode node : ((GraffNodeComposite)selected.getSlideController().getSlide()).getChildren()){
             GraffSlideElement element = (GraffSlideElement) node;
             if (element.isSelected()){
                 double angle = Math.toRadians(clockwise ? 90 : -90);
                 element.rotate(angle);
+                rotateCommand.addElement(element, element.getRotacija(), oldAngles.get(p));
+                p++;
             }
         }
+        commandManager.executeCommand(rotateCommand);
     }
 
 

@@ -13,11 +13,6 @@ public class TextElement extends GraffSlideElement {
     private String text;
     private Font font = new Font("Arial", Font.PLAIN, 20);
 
-    public TextElement(GraffNode parent, Point lokacija, Dimension dimension, String text) {
-        super(parent, lokacija, dimension);
-        this.text = text;
-    }
-
     public TextElement(GraffNode parent, Point lokacija, Dimension dimension) {
         super(parent, lokacija, dimension);
         this.text = "";
