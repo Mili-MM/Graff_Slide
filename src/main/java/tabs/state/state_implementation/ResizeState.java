@@ -23,6 +23,8 @@ public class ResizeState implements ToolState {
 
     @Override
     public void mousePressed(MouseEvent e, SlideController slideController) {
+        oldDimensions.clear();
+        oldFontSizes.clear();
         AffineTransform currentTransform = slideController.getSlideView().getCurrentTransform();
         lastPoint = transformPoint(e.getPoint(), currentTransform);
         for (GraffNode child : ((GraffNodeComposite) slideController.getSlide()).getChildren()) {
