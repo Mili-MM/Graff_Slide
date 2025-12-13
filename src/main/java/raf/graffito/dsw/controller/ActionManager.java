@@ -10,6 +10,9 @@ public class ActionManager {
     private NewChildAction newChildAction;
     private RemoveChildAction removeChildAction;
     private EditNodeAction editNodeAction;
+    private SaveAction saveAction;
+    private SaveAsAction saveAsAction;
+    private OpenAction openAction;
 
     public ActionManager() {
      initialise();
@@ -21,6 +24,9 @@ public class ActionManager {
         newChildAction = new NewChildAction();
         removeChildAction = new RemoveChildAction();
         editNodeAction = new EditNodeAction();
+        saveAction = new SaveAction();
+        saveAsAction = new SaveAsAction();
+        openAction = new OpenAction();
     }
 
 }

@@ -17,10 +17,16 @@ public class MyToolBar extends JToolBar {
         NewChildAction newChildAction = ac.getNewChildAction();
         RemoveChildAction removeChildAction = ac.getRemoveChildAction();
         EditNodeAction editNodeAction = ac.getEditNodeAction();
+        SaveAction saveAction = ac.getSaveAction();
+        SaveAsAction saveAsAction = ac.getSaveAsAction();
+        OpenAction openAction = ac.getOpenAction();
         add(exitAction);
         add(aboutUsAction);
         add(newChildAction);
         add(removeChildAction);
         add(editNodeAction);
+        add(saveAction);
+        add(saveAsAction);
+        add(openAction);
     }
 }

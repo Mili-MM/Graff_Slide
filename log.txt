@@ -77,3 +77,27 @@ cao
 
 [ERROR][8.11.2025 18:2] Izaberite čvor
 
+[ERROR][10.11.2025 15:11] Ta boja se vec koristi!
+
+[ERROR][10.11.2025 15:11] Popunite sva polja
+
+[ERROR][10.11.2025 15:11] Popunite sva polja
+
+[ERROR][10.11.2025 15:12] Morate izabrati čvor
+
+[ERROR][10.11.2025 15:12] Morate izabrati čvor
+
+[ERROR][10.11.2025 15:12] Izaberite čvor
+
+[ERROR][10.11.2025 15:13] Ta boja se vec koristi!
+
+[ERROR][10.11.2025 15:20] Ta boja se vec koristi!
+
+[ERROR][9.12.2025 20:30] Popunite sva polja
+
+[ERROR][10.12.2025 18:41] Popunite sva polja
+
+[ERROR][11.12.2025 18:56] Popunite sva polja
+
+[ERROR][12.12.2025 15:46] Popunite sva polja
+

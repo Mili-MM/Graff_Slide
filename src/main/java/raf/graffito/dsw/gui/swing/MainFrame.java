@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.Setter;
 import raf.graffito.dsw.controller.ActionManager;
 import raf.graffito.dsw.core.ApplicationFramework;
+import serijalizacija.SerializationImplementation;
 import tabs.GraffTabbedPane;
 
 import javax.swing.*;
@@ -26,6 +27,7 @@ public class MainFrame extends JFrame implements Subscriber {
     private GraffTree tree;
     private GraffTabbedPane tabbedPane;
     private JTree workspace;
+    private SerializationImplementation serijalizator;
 
     private MainFrame() {
     }
@@ -60,6 +62,8 @@ public class MainFrame extends JFrame implements Subscriber {
         setLocationRelativeTo(null); // Centriranje prozora na ekranu
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Zatvaranje aplikacije pri zatvaranju prozora
         setTitle("Graffito"); // Naslov prozora
+
+        serijalizator = new SerializationImplementation();
 
         MyMenuBar menu = new MyMenuBar(); // Kreiranje menija
         setJMenuBar(menu); // Postavljanje menija na prozor

@@ -20,11 +20,17 @@ public class MyMenuBar extends JMenuBar {
         NewChildAction newChildAction = ac.getNewChildAction();
         RemoveChildAction removeChildAction = ac.getRemoveChildAction();
         EditNodeAction editNodeAction = ac.getEditNodeAction();
+        SaveAction saveAction = ac.getSaveAction();
+        SaveAsAction saveAsAction = ac.getSaveAsAction();
+        OpenAction openAction = ac.getOpenAction();
         fileMenu.add(exitAction);
         fileMenu.add(aboutUsAction);
         fileMenu.add(newChildAction);
         fileMenu.add(removeChildAction);
         fileMenu.add(editNodeAction);
+        fileMenu.add(saveAction);
+        fileMenu.add(saveAsAction);
+        fileMenu.add(openAction);
         add(fileMenu);
     }
 

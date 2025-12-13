@@ -12,4 +12,6 @@ public class Project extends GraffNodeComposite {
         number = 1;
         super.setType(GraffNodeType.PROJECT);
     }
+
+
 }
