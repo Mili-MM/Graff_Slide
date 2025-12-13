@@ -1,12 +1,15 @@
 package raf.graffito.dsw.controller;
 
 import raf.graffito.dsw.gui.swing.MainFrame;
+import repository.graff_components.GraffNode;
+import repository.graff_components.GraffNodeComposite;
 import serijalizacija.model.Projekat;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.util.List;
 
 public class SaveAsAction extends AbstractGraffAction{
     public SaveAsAction() {
@@ -21,7 +24,13 @@ public class SaveAsAction extends AbstractGraffAction{
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Sačuvaj projekat kao JSON");
 
-        Projekat izabranProjekat = new Projekat("randomIme");
+        List<GraffNode> listaElemenata = ((GraffNodeComposite)MainFrame.getInstance().getTree().getSelectedNode().getGraffNode()).getChildren();
+        Projekat izabranProjekat = new Projekat(((GraffNodeComposite)MainFrame.getInstance().getTree().getSelectedNode().getGraffNode()).getTitle());
+        for(GraffNode gf: listaElemenata) {
+            izabranProjekat.addChild(gf);
+        }
+        System.out.println(izabranProjekat.getLista());
+
 
         if (izabranProjekat != null) {
             fileChooser.setSelectedFile(new File(izabranProjekat.getName().replaceAll("\\s+", "_") + ".json"));
@@ -36,6 +45,7 @@ public class SaveAsAction extends AbstractGraffAction{
             }
 
             MainFrame.getInstance().getSerijalizator().serialize(izabranProjekat, fileToSave);
+            izabranProjekat.setPath(fileToSave.getPath());
             System.out.println("Status: Projekat je uspešno sačuvan u: " + fileToSave.getAbsolutePath());
         }
 

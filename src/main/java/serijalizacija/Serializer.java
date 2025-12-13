@@ -1,4 +1,6 @@
-package serijalizacija.model;
+package serijalizacija;
+
+import serijalizacija.model.Projekat;
 
 import java.io.File;
 

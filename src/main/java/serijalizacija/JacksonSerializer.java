@@ -1,6 +1,7 @@
-package serijalizacija.model;
+package serijalizacija;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import serijalizacija.model.Projekat;
 
 import java.io.File;
 import java.io.IOException;

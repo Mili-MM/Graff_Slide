@@ -2,16 +2,17 @@ package serijalizacija;
 
 import lombok.Getter;
 import lombok.Setter;
-import serijalizacija.model.JacksonSerializer;
 import serijalizacija.model.Projekat;
-import serijalizacija.model.Serializer;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter @Setter
 public class SerializationImplementation {
 
     private Serializer serializer;
+    private List<Projekat> sacuvani = new ArrayList<>();
 
     public SerializationImplementation() {
         serializer = new JacksonSerializer();
@@ -22,7 +23,6 @@ public class SerializationImplementation {
     }
 
     public Projekat deSerialize(File f){
-        //ovde da implementiram da otvara fajl u aplikaciji, a moze i u openAction direktno
         return serializer.loadProject(f);
     }
 

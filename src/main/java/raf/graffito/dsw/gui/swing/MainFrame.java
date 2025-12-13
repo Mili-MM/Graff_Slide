@@ -58,7 +58,7 @@ public class MainFrame extends JFrame implements Subscriber {
         Dimension screenSize = kit.getScreenSize(); // Veličina ekrana
         int screenHeight = screenSize.height;
         int screenWidth = screenSize.width;
-        setSize(screenWidth / 2, screenHeight / 2);
+        setSize(screenWidth-300, screenHeight-300);
         setLocationRelativeTo(null); // Centriranje prozora na ekranu
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Zatvaranje aplikacije pri zatvaranju prozora
         setTitle("Graffito"); // Naslov prozora

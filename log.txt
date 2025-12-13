@@ -101,3 +101,7 @@ cao
 
 [ERROR][12.12.2025 15:46] Popunite sva polja
 
+[ERROR][13.12.2025 21:34] Morate izabrati čvor
+
+[ERROR][13.12.2025 21:42] Unesite validne brojeve 0-255
+

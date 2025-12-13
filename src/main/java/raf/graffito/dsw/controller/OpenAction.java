@@ -31,6 +31,7 @@ public class OpenAction extends AbstractGraffAction{
 
             if (loadedProject != null) {
                 System.out.println("Status: Učitan projekat iz: " + fileToLoad.getAbsolutePath());
+                System.out.println(loadedProject.toString());
             } else {
                 System.out.println("Status: GREŠKA prilikom učitavanja projekta!");
             }
