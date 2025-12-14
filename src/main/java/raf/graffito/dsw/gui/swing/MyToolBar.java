@@ -20,6 +20,8 @@ public class MyToolBar extends JToolBar {
         SaveAction saveAction = ac.getSaveAction();
         SaveAsAction saveAsAction = ac.getSaveAsAction();
         OpenAction openAction = ac.getOpenAction();
+        LoadTemplateAction loadTemplateAction = ac.getLoadTemplateAction();
+        SaveTemplateAction saveTemplateAction = ac.getSaveTemplateAction();
         add(exitAction);
         add(aboutUsAction);
         add(newChildAction);
@@ -28,5 +30,7 @@ public class MyToolBar extends JToolBar {
         add(saveAction);
         add(saveAsAction);
         add(openAction);
+        add(loadTemplateAction);
+        add(saveTemplateAction);
     }
 }

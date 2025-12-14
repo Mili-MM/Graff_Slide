@@ -21,6 +21,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -35,12 +36,16 @@ public class SerializationImplementation {
     }
 
     public void serialize(SavedProject p, File f){
-        lastSelectedPath = f;
+        if (!isInResources(f)) lastSelectedPath = f;
         serializer.saveProject(p,f);
     }
 
     public SavedProject deSerialize(File f){
-        lastSelectedPath = f;
+        if (!isInResources(f)) lastSelectedPath = f;
         return serializer.loadProject(f);
+    }
+
+    private boolean isInResources(File f){
+        return f.toPath().toAbsolutePath().normalize().startsWith(Paths.get("src/main/resources").toAbsolutePath().normalize());
     }
 }

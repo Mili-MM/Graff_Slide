@@ -23,6 +23,9 @@ public class MyMenuBar extends JMenuBar {
         SaveAction saveAction = ac.getSaveAction();
         SaveAsAction saveAsAction = ac.getSaveAsAction();
         OpenAction openAction = ac.getOpenAction();
+        LoadTemplateAction loadTemplateAction = ac.getLoadTemplateAction();
+        SaveTemplateAction saveTemplateAction = ac.getSaveTemplateAction();
+
         fileMenu.add(exitAction);
         fileMenu.add(aboutUsAction);
         fileMenu.add(newChildAction);
@@ -31,6 +34,8 @@ public class MyMenuBar extends JMenuBar {
         fileMenu.add(saveAction);
         fileMenu.add(saveAsAction);
         fileMenu.add(openAction);
+        fileMenu.add(loadTemplateAction);
+        fileMenu.add(saveTemplateAction);
         add(fileMenu);
     }
 

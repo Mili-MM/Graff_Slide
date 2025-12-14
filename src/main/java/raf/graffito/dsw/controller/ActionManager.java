@@ -13,6 +13,8 @@ public class ActionManager {
     private SaveAction saveAction;
     private SaveAsAction saveAsAction;
     private OpenAction openAction;
+    private SaveTemplateAction saveTemplateAction;
+    private LoadTemplateAction loadTemplateAction;
 
     public ActionManager() {
      initialise();
@@ -27,6 +29,8 @@ public class ActionManager {
         saveAction = new SaveAction();
         saveAsAction = new SaveAsAction();
         openAction = new OpenAction();
+        loadTemplateAction = new LoadTemplateAction();
+        saveTemplateAction = new SaveTemplateAction();
     }
 
 }
