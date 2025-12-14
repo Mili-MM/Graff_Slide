@@ -4,6 +4,8 @@ import raf.graffito.dsw.gui.swing.MainFrame;
 import repository.graff_components.GraffNode;
 import repository.graff_components.GraffNodeComposite;
 import repository.graff_components.GraffNodeType;
+import repository.graff_implementation.Project;
+import repository.graff_node_decorator.GraffNodeDecorator;
 import serijalizacija.model.SavedProject;
 
 import javax.swing.*;
@@ -23,54 +25,38 @@ public class SaveAction extends AbstractGraffAction{
     @Override
     public void actionPerformed(ActionEvent e) {
         GraffNode lastSelected = MainFrame.getInstance().getTree().getSelectedNode().getGraffNode();
+        File lastSelectedPath = MainFrame.getInstance().getSerijalizator().getLastSelectedPath();
         if (lastSelected.getType() != GraffNodeType.PROJECT){
             System.out.println("Selektuj Project za cuvanje");
             return;
         }
-        SavedProject izabranSavedProject = new SavedProject(lastSelected);
+        if (!((Project) lastSelected).isModified()) {
+            System.out.println("Fajlovi nisu modifikovani");
+            return;
+        }
+        if (lastSelectedPath == null){
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Sačuvaj projekat kao JSON");
+            SavedProject izabranSavedProject = new SavedProject(lastSelected);
+            fileChooser.setSelectedFile(new File(izabranSavedProject.getName().replaceAll("\\s+", "_") + ".json"));
 
+            int userSelection = fileChooser.showSaveDialog(MainFrame.getInstance());
 
-        //Provera da li se otvara opet prozor ako je vec jednom sacuvan
-//        for(SavedProject p : MainFrame.getInstance().getSerijalizator().getSacuvani()){
-//            if(p.getName().equals(MainFrame.getInstance().getTree().getSelectedNode().getGraffNode().getTitle())){
-//                if(false){
-//                    System.out.println("!!!NE MOZETE SACUVATI: Nista nije izmenjeno, a projekat je vec sacuvan");
-//                    return;
-//                }else {
-//                    File f = new File(p.getPath());
-//                    MainFrame.getInstance().getSerijalizator().serialize(izabranSavedProject, f);
-//                    System.out.println("CUVA SE, NE OTVARA SE PROZOR JER VEC IMA PUTANJU");
-//                    izabranSavedProject.setPath(p.getPath());
-//                    MainFrame.getInstance().getSerijalizator().getSacuvani().remove(p);
-//                    MainFrame.getInstance().getSerijalizator().getSacuvani().add(izabranSavedProject);
-//                    return;
-//                }
-//            }
-//        }
-//
-//
-//        File startDir = new File("src/main/resources/JSONfiles");
-//        JFileChooser fileChooser = new JFileChooser(startDir);
-//        fileChooser.setDialogTitle("Sačuvaj projekat kao JSON");
-//
-//        if (izabranSavedProject != null) {
-//            fileChooser.setSelectedFile(new File(izabranSavedProject.getName().replaceAll("\\s+", "_") + ".json"));
-//        }
-//
-//        int userSelection = fileChooser.showSaveDialog(MainFrame.getInstance());
-//
-//        if (userSelection == JFileChooser.APPROVE_OPTION) {
-//            File fileToSave = fileChooser.getSelectedFile();
-//            if (!fileToSave.getName().toLowerCase().endsWith(".json")) {
-//                fileToSave = new File(fileToSave.getAbsolutePath() + ".json");
-//            }
-//
-//            MainFrame.getInstance().getSerijalizator().serialize(izabranSavedProject, fileToSave);
-//            izabranSavedProject.setPath(fileToSave.getPath());
-//            MainFrame.getInstance().getSerijalizator().getSacuvani().add(izabranSavedProject);
-//            System.out.println(izabranSavedProject.getLista());
-//            System.out.println("Status: Projekat je uspešno sačuvan u: " + fileToSave.getAbsolutePath());
-//        }
+            if (userSelection == JFileChooser.APPROVE_OPTION) {
+                File fileToSave = fileChooser.getSelectedFile();
+                if (!fileToSave.getName().toLowerCase().endsWith(".json")) {
+                    fileToSave = new File(fileToSave.getAbsolutePath() + ".json");
+                }
+
+                MainFrame.getInstance().getSerijalizator().serialize(izabranSavedProject, fileToSave);
+                System.out.println("Status: Projekat je uspešno sačuvan u: " + fileToSave.getAbsolutePath());
+            }
+        }
+        else{
+            SavedProject izabranSavedProject = new SavedProject(lastSelected);
+            MainFrame.getInstance().getSerijalizator().serialize(izabranSavedProject, lastSelectedPath);
+            System.out.println("Status: Projekat je uspešno sačuvan u: " + lastSelectedPath.getAbsolutePath());
+        }
 
     }
 }
