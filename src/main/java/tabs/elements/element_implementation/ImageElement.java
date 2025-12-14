@@ -1,14 +1,19 @@
 package tabs.elements.element_implementation;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
+import lombok.Setter;
 import repository.graff_components.GraffNode;
 import tabs.elements.GraffSlideElement;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-@Getter
+
 public class ImageElement extends GraffSlideElement {
+    @JsonIgnore
     private BufferedImage image;
+    @Setter @Getter
+    private String imagePath;
 
     public ImageElement(GraffNode parent, Point lokacija, Dimension dimension, BufferedImage image) {
         super(parent, lokacija, dimension);
@@ -37,5 +42,9 @@ public class ImageElement extends GraffSlideElement {
         Dimension dimension = getDimension();
         dimension.width = Math.max(10, dimension.width + dx);
         dimension.height = Math.max(10, dimension.height + dy);
+    }
+    @JsonIgnore
+    public BufferedImage getImage() {
+        return image;
     }
 }

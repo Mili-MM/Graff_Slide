@@ -1,7 +1,7 @@
 package serijalizacija;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import serijalizacija.model.Projekat;
+import serijalizacija.model.SavedProject;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,9 +17,9 @@ public class JacksonSerializer implements Serializer{
 
 
     @Override
-    public Projekat loadProject(File file) {
+    public SavedProject loadProject(File file) {
         try {
-            return objectMapper.readValue(file, Projekat.class);
+            return objectMapper.readValue(file, SavedProject.class);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -27,9 +27,9 @@ public class JacksonSerializer implements Serializer{
     }
 
     @Override
-    public void saveProject(Projekat projekat, File file) {
+    public void saveProject(SavedProject savedProject, File file) {
         try {
-            objectMapper.writeValue(file, projekat);
+            objectMapper.writeValue(file, savedProject);
             System.out.println("Projekat je sačuvan u: " + file.getAbsolutePath());
         } catch (IOException e) {
             e.printStackTrace();

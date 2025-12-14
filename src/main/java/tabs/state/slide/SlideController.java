@@ -110,7 +110,9 @@ public class SlideController implements MouseListener, MouseMotionListener, Acti
     private void addImage(String fileName) {
         try {
             BufferedImage img = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/" + fileName)));
-            GraffNode el = new ImageElement(slide, new Point(50, 50), new Dimension(100, 100), img);
+            String imagePath = "/images/" + fileName;
+            ImageElement el = new ImageElement(slide, new Point(50, 50), new Dimension(100, 100), img);
+            el.setImagePath(imagePath);
             AddCommand addCommand = new AddCommand((GraffNodeComposite) slide, el);
             commandManager.executeCommand(addCommand);
             updateView();

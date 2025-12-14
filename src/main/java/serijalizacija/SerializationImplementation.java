@@ -2,7 +2,7 @@ package serijalizacija;
 
 import lombok.Getter;
 import lombok.Setter;
-import serijalizacija.model.Projekat;
+import serijalizacija.model.SavedProject;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -12,17 +12,17 @@ import java.util.List;
 public class SerializationImplementation {
 
     private Serializer serializer;
-    private List<Projekat> sacuvani = new ArrayList<>();
+    private List<SavedProject> sacuvani = new ArrayList<>();
 
     public SerializationImplementation() {
         serializer = new JacksonSerializer();
     }
 
-    public void serialize(Projekat p, File f){
+    public void serialize(SavedProject p, File f){
         serializer.saveProject(p,f);
     }
 
-    public Projekat deSerialize(File f){
+    public SavedProject deSerialize(File f){
         return serializer.loadProject(f);
     }
 

@@ -7,6 +7,7 @@ import jtree.panels.ColorChoserPanel;
 import jtree.panels.ConfirmPanel;
 import jtree.model.GraffTreeItem;
 import jtree.view.GraffTreeView;
+import lombok.Getter;
 import raf.graffito.dsw.gui.swing.MainFrame;
 import repository.graff_components.GraffLeaf;
 import repository.graff_components.GraffNode;
@@ -36,6 +37,7 @@ public class GraffTreeImplementation implements GraffTree, INodeChangePublisher 
     private DefaultTreeModel treeModel;
     private List<INodeChangeSubscriber> subs = new ArrayList<>();
     private GraffRepositoryFactory graffFactory = new GraffRepositoryFactory();
+    @Getter
     private GraffTreeItem root;
 
     @Override
@@ -205,5 +207,10 @@ public class GraffTreeImplementation implements GraffTree, INodeChangePublisher 
     @Override
     public void removeSubscriber(INodeChangeSubscriber sub) {
         if (subs.contains(sub)) subs.remove(sub);
+    }
+
+    public void updateTree(){
+        //graffTreeView.expandPath(graffTreeView.getSelectionPath());
+        SwingUtilities.updateComponentTreeUI(graffTreeView);
     }
 }

@@ -1,10 +1,10 @@
 package serijalizacija;
 
-import serijalizacija.model.Projekat;
+import serijalizacija.model.SavedProject;
 
 import java.io.File;
 
 public interface Serializer {
-    Projekat loadProject(File file);
-    void saveProject(Projekat project, File file);
+    SavedProject loadProject(File file);
+    void saveProject(SavedProject project, File file);
 }

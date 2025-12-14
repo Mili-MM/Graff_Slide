@@ -1,5 +1,6 @@
 package repository.graff_components;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,7 @@ import java.util.Objects;
 @Getter
 @Setter
 public abstract class GraffNode {
+    @JsonIgnore
     private GraffNode parent;
     private String title;
     private String author;

@@ -3,7 +3,8 @@ package raf.graffito.dsw.controller;
 import raf.graffito.dsw.gui.swing.MainFrame;
 import repository.graff_components.GraffNode;
 import repository.graff_components.GraffNodeComposite;
-import serijalizacija.model.Projekat;
+import repository.graff_components.GraffNodeType;
+import serijalizacija.model.SavedProject;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -24,17 +25,13 @@ public class SaveAsAction extends AbstractGraffAction{
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Sačuvaj projekat kao JSON");
 
-        List<GraffNode> listaElemenata = ((GraffNodeComposite)MainFrame.getInstance().getTree().getSelectedNode().getGraffNode()).getChildren();
-        Projekat izabranProjekat = new Projekat(((GraffNodeComposite)MainFrame.getInstance().getTree().getSelectedNode().getGraffNode()).getTitle());
-        for(GraffNode gf: listaElemenata) {
-            izabranProjekat.addChild(gf);
+        GraffNode lastSelected = MainFrame.getInstance().getTree().getSelectedNode().getGraffNode();
+        if (lastSelected.getType() != GraffNodeType.PROJECT){
+            System.out.println("Selektuj Project za cuvanje");
+            return;
         }
-        System.out.println(izabranProjekat.getLista());
-
-
-        if (izabranProjekat != null) {
-            fileChooser.setSelectedFile(new File(izabranProjekat.getName().replaceAll("\\s+", "_") + ".json"));
-        }
+        SavedProject izabranSavedProject = new SavedProject(lastSelected);
+        fileChooser.setSelectedFile(new File(izabranSavedProject.getName().replaceAll("\\s+", "_") + ".json"));
 
         int userSelection = fileChooser.showSaveDialog(MainFrame.getInstance());
 
@@ -44,8 +41,7 @@ public class SaveAsAction extends AbstractGraffAction{
                 fileToSave = new File(fileToSave.getAbsolutePath() + ".json");
             }
 
-            MainFrame.getInstance().getSerijalizator().serialize(izabranProjekat, fileToSave);
-            izabranProjekat.setPath(fileToSave.getPath());
+            MainFrame.getInstance().getSerijalizator().serialize(izabranSavedProject, fileToSave);
             System.out.println("Status: Projekat je uspešno sačuvan u: " + fileToSave.getAbsolutePath());
         }
 
