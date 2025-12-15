@@ -143,6 +143,7 @@ public class SlideController implements MouseListener, MouseMotionListener, Acti
     }
 
     private void addLocalImage() throws IOException {
+        System.out.println("pokusavam da otvorim sliku");
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Otvori JSON projekat");
 
@@ -157,6 +158,7 @@ public class SlideController implements MouseListener, MouseMotionListener, Acti
             AddCommand addCommand = new AddCommand((GraffNodeComposite) slide, el);
             commandManager.executeCommand(addCommand);
             updateView();
+            MainFrame.getInstance().getUcitaneSlike().addImage(el.getImage());
         }
     }
 

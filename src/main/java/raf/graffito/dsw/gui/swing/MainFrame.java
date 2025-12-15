@@ -13,6 +13,7 @@ import raf.graffito.dsw.controller.ActionManager;
 import raf.graffito.dsw.core.ApplicationFramework;
 import serijalizacija.SerializationImplementation;
 import tabs.GraffTabbedPane;
+import tabs.ucitaneslike.UcitaneSlikeView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,6 +29,7 @@ public class MainFrame extends JFrame implements Subscriber {
     private GraffTabbedPane tabbedPane;
     private JTree workspace;
     private SerializationImplementation serijalizator;
+    private UcitaneSlikeView ucitaneSlike;
 
     private MainFrame() {
     }
@@ -64,6 +66,13 @@ public class MainFrame extends JFrame implements Subscriber {
         setTitle("Graffito"); // Naslov prozora
 
         serijalizator = new SerializationImplementation();
+
+        ucitaneSlike = new UcitaneSlikeView();
+
+        JScrollPane scrollPane = new JScrollPane(ucitaneSlike);
+        scrollPane.setPreferredSize(new Dimension(150, 400));
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        add(scrollPane, BorderLayout.EAST);
 
         MyMenuBar menu = new MyMenuBar(); // Kreiranje menija
         setJMenuBar(menu); // Postavljanje menija na prozor

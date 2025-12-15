@@ -13,10 +13,8 @@ public class SlideElementsBox extends JPanel {
         setLayout(new GridLayout(6, 1, 0, 10));
         setPreferredSize(new Dimension(80, 400));
 
-        JButton addImage = new JButton("Add Image");
-        addImage.setActionCommand("addLocalImage");
-        add(addImage);
 
+        createButton("/images/addpicture.png", "addLocalImage");
         createButton("/images/sundjerbob.png", "img1");
         createButton("/images/exit.png", "img2");
         createButton("/images/patrik.png", "img3");
