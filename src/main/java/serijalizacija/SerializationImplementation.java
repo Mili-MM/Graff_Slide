@@ -21,6 +21,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +46,24 @@ public class SerializationImplementation {
         return serializer.loadProject(f);
     }
 
-    private boolean isInResources(File f){
-        return f.toPath().toAbsolutePath().normalize().startsWith(Paths.get("src/main/resources").toAbsolutePath().normalize());
+    private boolean isInResources(File f) {
+        try {
+            Path filePath = f.toPath().toRealPath();
+
+            Path classesRoot = Paths.get(
+                    getClass()
+                            .getProtectionDomain()
+                            .getCodeSource()
+                            .getLocation()
+                            .toURI()
+            ).toRealPath();
+
+            return filePath.startsWith(classesRoot);
+        } catch (Exception e) {
+            return false;
+        }
     }
+
+
+
 }

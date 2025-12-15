@@ -69,7 +69,9 @@ public class JacksonSerializer implements Serializer{
             Point location = new Point((Integer) sn.getProps().get("x"), (Integer) sn.getProps().get("y"));
             Dimension dimension = new Dimension((Integer) sn.getProps().get("width"), (Integer) sn.getProps().get("height"));
             String imagePath = sn.getProps().get("imagePath").toString();
-            BufferedImage img = ImageIO.read(Objects.requireNonNull(getClass().getResource(imagePath)));
+            File f = new File(imagePath);
+            System.out.println(f.getAbsolutePath());
+            BufferedImage img = ImageIO.read(f.getAbsoluteFile());
             node = new ImageElement(parent.getGraffNode(), location, dimension, img);
             ((ImageElement) node).setRotacija(rotation);
             ((ImageElement) node).setImagePath(imagePath);
