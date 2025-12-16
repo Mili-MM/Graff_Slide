@@ -13,6 +13,8 @@ import lombok.Getter;
 import tabs.elements.element_implementation.LogoElement;
 import tabs.state.StateManager;
 import tabs.state.slide.SlideView;
+import tabs.ucitaneslike.proxy.ImageInterfejs;
+import tabs.ucitaneslike.proxy.ProxyImage;
 import tabs.undoredo.CommandManager;
 import tabs.undoredo.command_implementation.AddCommand;
 
@@ -156,13 +158,29 @@ public class SlideController implements MouseListener, MouseMotionListener, Acti
 
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             File fileToLoad = fileChooser.getSelectedFile();
-            BufferedImage img = ImageIO.read(fileToLoad);
+            String filePath = fileToLoad.getPath();
+            ProxyImage proxyImage = null;
+            if(!MainFrame.getInstance().getUcitaneSlike().daLiSadrzi(filePath)) {
+                proxyImage = new ProxyImage(filePath);
+                MainFrame.getInstance().getUcitaneSlike().addImage(proxyImage);
+            }else{
+                for(ImageInterfejs img: MainFrame.getInstance().getUcitaneSlike().getProxies()){
+                    ProxyImage proxy = (ProxyImage)img;
+                    if(proxy.getFilePath().equals(filePath)){
+                        proxyImage = proxy;
+                        break;
+                    }
+                }
+            }
+            if(proxyImage == null){
+                return;
+            }
+            BufferedImage img = proxyImage.display();
             ImageElement el = new ImageElement(slide, new Point(50, 50), new Dimension(100, 100), img);
             el.setImagePath(fileToLoad.getAbsolutePath());
             AddCommand addCommand = new AddCommand((GraffNodeComposite) slide, el);
             commandManager.executeCommand(addCommand);
             updateView();
-            MainFrame.getInstance().getUcitaneSlike().addImage(el.getImage());
         }
     }
 

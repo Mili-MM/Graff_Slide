@@ -1,9 +1,34 @@
 package tabs.ucitaneslike.proxy;
 
-public class HighDefinitionImage implements Image{
+import lombok.Getter;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+@Getter
+public class HighDefinitionImage implements ImageInterfejs {
+
+    String filePath;
+    BufferedImage img;
+
+    public HighDefinitionImage(String filePath) {
+        this.filePath = filePath;
+        loadImage(filePath);
+    }
+
+    private void loadImage(String filePath){
+        try {
+            File f = new File(filePath);
+            img = ImageIO.read(f);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
-    public void display() {
-
+    public BufferedImage display() {
+        return img;
     }
 }
