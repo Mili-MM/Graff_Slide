@@ -211,8 +211,4 @@ public class SlideController implements MouseListener, MouseMotionListener, Acti
         emptySpacePercentage = procenti;
         System.out.println("Procenti: " + (int)procenti + "%  (Slobodna povrsina)");
     }
-
-    public void setScaleFactor(double scaleFactor) {
-        slideView.setScaleFactorWindow(scaleFactor);
-    }
 }

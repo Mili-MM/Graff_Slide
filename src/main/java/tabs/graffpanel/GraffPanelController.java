@@ -7,6 +7,13 @@ import repository.graff_components.GraffNode;
 import strategy.EmptySpaceCalculator;
 import strategy.concretes.FirstEmptySpaceCalculateStrategy;
 import strategy.concretes.SecondEmptySpaceCalculateStrategy;
+import tabs.mediator.WindowMediator;
+import tabs.mediator.WindowMediatorImplementation;
+import tabs.mediator.window_modes.WindowMode;
+import tabs.mediator.window_modes.WindowModeAbstraction;
+import tabs.mediator.window_modes.window_mode_implementation.FullScreenMode;
+import tabs.mediator.window_modes.window_mode_implementation.NormalMode;
+import tabs.mediator.window_modes.window_mode_implementation.SmallMode;
 import tabs.state.StateManager;
 import tabs.state.slide.rightbar.SlideController;
 import tabs.state.slide.rightbar.SlideElementsBox;
@@ -26,6 +33,7 @@ public class GraffPanelController {
     private CommandManager commandManager = new CommandManager();
     @Getter
     private EmptySpaceCalculator emptySpaceCalculator = new EmptySpaceCalculator(new FirstEmptySpaceCalculateStrategy());
+    private WindowMediator windowMediator;
 
     public GraffPanelController(GraffNode node) {
         super();
@@ -34,6 +42,7 @@ public class GraffPanelController {
                 new SlideStatesController(stateManager, commandManager);
         view = new GraffPanelView(slideStatesController.getView());
         view.setGraffPanelController(this);
+
         addListeners();
     }
 
@@ -41,6 +50,7 @@ public class GraffPanelController {
     public void setSlideController(SlideController slideController) {
         this.slideController = slideController;
         view.setSlideController(slideController);
+        windowMediator = new WindowMediatorImplementation(slideController.getSlideView());
     }
 
     @Override
@@ -77,26 +87,15 @@ public class GraffPanelController {
         );
 
         view.getRadioButtonNormalScreen().addActionListener(e -> {
-            MainFrame.getInstance().updateSize(1.0);
-            if (slideController.getSlideView() != null) slideController.getSlideView().updateWindowSize(1.0);
-            slideController.setScaleFactor(1.0);
-            slideController.updateView();
+            windowMediator.changeMode(WindowMode.NORMAL);
         });
 
         view.getRadioButtonSmallScreen().addActionListener(e -> {
-
-            MainFrame.getInstance().updateSize(0.5);
-            if (slideController.getSlideView() != null) slideController.getSlideView().updateWindowSize(0.5);
-            slideController.setScaleFactor(0.5);
-            slideController.updateView();
+            windowMediator.changeMode(WindowMode.SMALL);
         });
 
         view.getRadioButtonFullScreen().addActionListener(e -> {
-            MainFrame.getInstance().updateSize(1.15);
-            if (slideController.getSlideView() != null) slideController.getSlideView().updateWindowSize(1.15);
-            slideController.setScaleFactor(1.15);
-            slideController.updateView();
-            view.enterFullScreen(MainFrame.getInstance());
+            windowMediator.changeMode(WindowMode.FULLSCREEN);
         });
     }
 

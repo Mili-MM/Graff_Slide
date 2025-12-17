@@ -19,14 +19,14 @@ public class TextPainter extends PrimordialPainter {
     public void paint(Graphics2D g) {
         Graphics2D g2 = (Graphics2D) g.create();
 
-        int x = (int) ((double)element.getLocation().x * scaleFactor);
-        int y = (int) ((double)element.getLocation().y * scaleFactor);
+        int x = element.getLocation().x;
+        int y = element.getLocation().y;
 
         g2.setFont(textElement.getFont());
         FontMetrics fm = g2.getFontMetrics();
 
-        int width = (int) ((double)fm.stringWidth(textElement.getText()) * scaleFactor);
-        int height = (int) ((double)fm.getHeight() * scaleFactor);
+        int width = fm.stringWidth(textElement.getText());
+        int height = fm.getHeight();
 
         // update element dimension
         textElement.getDimension().setSize(width, height);

@@ -85,11 +85,12 @@ public class GraffPanelView extends JPanel {
         add(scrollPane, BorderLayout.NORTH);
     }
 
-    public void setSlideController(SlideController slideController){
-        // Ukloni prethodni panel
+    public void setSlideController(SlideController slideController) {
+
         if (centerPanel != null) {
             remove(centerPanel);
         }
+
         if (slideElementsBox == null) {
             slideElementsBox = new SlideElementsBox();
             add(slideElementsBox, BorderLayout.EAST);
@@ -97,28 +98,15 @@ public class GraffPanelView extends JPanel {
 
         slideElementsBox.addController(slideController);
 
-        // Novi panel sa fiksnom veličinom i centriranjem
-
-        centerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 2));
+        centerPanel = new JPanel(new GridBagLayout());
         centerPanel.add(slideController.getSlideView());
 
         add(centerPanel, BorderLayout.CENTER);
 
-        revalidate(); // da layout ažurira
+        revalidate();
         repaint();
     }
 
-    public void enterFullScreen(JFrame frame) {
-        GraphicsDevice device =
-                GraphicsEnvironment
-                        .getLocalGraphicsEnvironment()
-                        .getDefaultScreenDevice();
-
-        frame.dispose();
-
-        device.setFullScreenWindow(frame);
-        frame.setVisible(true);
-    }
 
     @Override
     public String toString(){

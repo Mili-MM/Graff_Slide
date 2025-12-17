@@ -9,6 +9,7 @@ import tabs.elements.element_implementation.LogoElement;
 import tabs.elements.element_implementation.TextElement;
 import tabs.elements.painters.*;
 import tabs.elements.painters.Painter;
+import tabs.mediator.window_modes.WindowModeAbstraction;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,8 +39,9 @@ public class SlideView extends JPanel {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         g2d.setTransform(currentTransform);
+        g2d.scale(scaleFactor, scaleFactor);
+        g2d.drawRect(0, 0, windowWidth, windowHeight);
 
-        // Crtanje svih elemenata
         for (GraffNode child : viewComponents) {
             GraffSlideElement element = (GraffSlideElement) child;
 
@@ -53,10 +55,8 @@ public class SlideView extends JPanel {
             else if (element instanceof TextElement) {
                 painter = new TextPainter((TextElement) element);
             }
-            // Dodaj ostale tipove elemenata po potrebi
 
             if (painter != null) {
-                painter.setScaleFactor(scaleFactor);
                 painter.paint(g2d);
             }
         }
@@ -67,14 +67,8 @@ public class SlideView extends JPanel {
         currentTransform.scale(scaleFactor, scaleFactor);
     }
 
-    public void setScaleFactorWindow(double scaleFactor) {
-        this.scaleFactor = scaleFactor;
-    }
-
-    public void updateWindowSize(double factor){
-        Dimension newSize = new Dimension((int) (windowWidth*factor), (int) (windowHeight*factor));
-        setPreferredSize(newSize);
-        setMinimumSize(newSize);
-        setMaximumSize(newSize);
+    public void updateScale(WindowModeAbstraction mode) {
+        scaleFactor = mode.getScale(getParent().getSize(), new Dimension(windowWidth, windowHeight));
+        repaint();
     }
 }

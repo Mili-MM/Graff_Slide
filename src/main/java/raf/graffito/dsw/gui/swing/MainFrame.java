@@ -98,4 +98,16 @@ public class MainFrame extends JFrame implements Subscriber {
         setSize((int) ((double)windowWidth*factor), (int) ((double)windowHeight*factor));
         scrollPane.setPreferredSize(new Dimension((int)((double)scrollPaneWidth * factor), (int)((double)scrollPaneHeight * factor)));
     }
+
+    public void enterFullScreen() {
+        GraphicsDevice device =
+                GraphicsEnvironment
+                        .getLocalGraphicsEnvironment()
+                        .getDefaultScreenDevice();
+
+        dispose();
+
+        device.setFullScreenWindow(this);
+        setVisible(true);
+    }
 }

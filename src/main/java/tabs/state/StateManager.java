@@ -42,7 +42,6 @@ public class StateManager {
     public void setZoomState(){
         currentState = zoom;
     }
-
     public void setTextState(){
         currentState = text;
     }
