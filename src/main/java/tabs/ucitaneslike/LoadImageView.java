@@ -1,9 +1,8 @@
 package tabs.ucitaneslike;
 
 import lombok.Getter;
-import raf.graffito.dsw.gui.swing.MainFrame;
-import tabs.ucitaneslike.control.UcitajSlikuControl;
-import tabs.ucitaneslike.proxy.ImageInterfejs;
+import tabs.ucitaneslike.control.LoadImageControl;
+import tabs.ucitaneslike.proxy.ImageInterface;
 import tabs.ucitaneslike.proxy.ProxyImage;
 
 import javax.swing.*;
@@ -13,21 +12,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-public class UcitaneSlikeView extends JPanel {
+public class LoadImageView extends JPanel {
 
-    private List<ImageInterfejs> proxies;
+    private List<ImageInterface> proxies;
     private List<ImageIcon> thumbnails; // lista umanjenih slika
     private int thumbnailWidth = 50;   // širina umanjene slike
     private int thumbnailHeight = 50;  // visina umanjene slike
 
-    public UcitaneSlikeView() {
+    public LoadImageView() {
         this.thumbnails = new ArrayList<>();
         this.proxies = new ArrayList<>();
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); // vertikalno dodavanje
     }
 
     // Dodaj novu sliku u listu i repaint
-    public void addImage(ImageInterfejs proxy) {
+    public void addImage(ImageInterface proxy) {
         proxies.add(proxy);
         BufferedImage bufImg = proxy.display();
         Image scaled = bufImg.getScaledInstance(thumbnailWidth, thumbnailHeight, Image.SCALE_SMOOTH);
@@ -35,14 +34,14 @@ public class UcitaneSlikeView extends JPanel {
         JButton label = new JButton(thumbnails.get(thumbnails.size() - 1));
         label.setAlignmentX(Component.CENTER_ALIGNMENT);
         label.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
-        label.addActionListener(new UcitajSlikuControl(proxy));
+        label.addActionListener(new LoadImageControl(proxy));
         add(label);
         revalidate();
         repaint();
     }
 
     public boolean daLiSadrzi(String filePath){
-        for(ImageInterfejs img: proxies){
+        for(ImageInterface img: proxies){
             if(filePath.equals(((ProxyImage)img).getFilePath())){
                 return true;
             }

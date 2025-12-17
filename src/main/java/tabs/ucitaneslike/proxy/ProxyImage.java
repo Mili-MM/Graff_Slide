@@ -5,7 +5,7 @@ import lombok.Getter;
 import java.awt.image.BufferedImage;
 
 @Getter
-public class ProxyImage implements ImageInterfejs {
+public class ProxyImage implements ImageInterface {
 
     HighDefinitionImage realImage;
     String filePath;

@@ -2,6 +2,6 @@ package tabs.ucitaneslike.proxy;
 
 import java.awt.image.BufferedImage;
 
-public interface ImageInterfejs {
+public interface ImageInterface {
     BufferedImage display();
 }

@@ -8,7 +8,7 @@ import java.io.File;
 import java.io.IOException;
 
 @Getter
-public class HighDefinitionImage implements ImageInterfejs {
+public class HighDefinitionImage implements ImageInterface {
 
     String filePath;
     BufferedImage img;

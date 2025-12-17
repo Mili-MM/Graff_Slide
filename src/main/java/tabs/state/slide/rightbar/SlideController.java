@@ -10,7 +10,7 @@ import tabs.elements.element_implementation.LogoElement;
 import tabs.graffpanel.GraffPanelView;
 import tabs.state.StateManager;
 import tabs.state.slide.SlideView;
-import tabs.ucitaneslike.proxy.ImageInterfejs;
+import tabs.ucitaneslike.proxy.ImageInterface;
 import tabs.ucitaneslike.proxy.ProxyImage;
 import tabs.undoredo.CommandManager;
 import tabs.undoredo.command_implementation.AddCommand;
@@ -157,7 +157,7 @@ public class SlideController implements MouseListener, MouseMotionListener, Acti
                 proxyImage = new ProxyImage(filePath);
                 MainFrame.getInstance().getUcitaneSlike().addImage(proxyImage);
             }else{
-                for(ImageInterfejs img: MainFrame.getInstance().getUcitaneSlike().getProxies()){
+                for(ImageInterface img: MainFrame.getInstance().getUcitaneSlike().getProxies()){
                     ProxyImage proxy = (ProxyImage)img;
                     if(proxy.getFilePath().equals(filePath)){
                         proxyImage = proxy;
@@ -169,7 +169,7 @@ public class SlideController implements MouseListener, MouseMotionListener, Acti
                 return;
             }
             BufferedImage img = proxyImage.display();
-            ImageElement el = new ImageElement(slide, new Point(50, 50), new Dimension(100, 100), img);
+            ImageElement el = new ImageElement(slide, new Point(50, 50), new Dimension(img.getWidth(), img.getHeight()), img);
             el.setImagePath(fileToLoad.getAbsolutePath());
             AddCommand addCommand = new AddCommand((GraffNodeComposite) slide, el);
             commandManager.executeCommand(addCommand);
@@ -179,7 +179,7 @@ public class SlideController implements MouseListener, MouseMotionListener, Acti
 
     public void addLocalImageAgain(ProxyImage proxyImg){
         BufferedImage img = proxyImg.display();
-        ImageElement el = new ImageElement(slide, new Point(50, 50), new Dimension(100, 100), img);
+        ImageElement el = new ImageElement(slide, new Point(50, 50), new Dimension(img.getWidth(), img.getHeight()), img);
         el.setImagePath(proxyImg.getFilePath());
         AddCommand addCommand = new AddCommand((GraffNodeComposite) slide, el);
         commandManager.executeCommand(addCommand);
@@ -195,11 +195,11 @@ public class SlideController implements MouseListener, MouseMotionListener, Acti
         slideView.repaint();
 
         GraffPanelController active = ((GraffPanelView)MainFrame.getInstance().getTabbedPane().getSelectedComponent()).getGraffPanelController();
-        //System.out.println("Empty Space:");
+        System.out.println("Empty Space:");
         int emptyPixels = active.getEmptySpaceCalculator().calculateEmptySpace((ArrayList<GraffNode>) ((GraffNodeComposite) slide).getChildren(), slideView.getWindowWidth(), slideView.getWindowHeight());
-        //System.out.println("Empty pixels : " + emptyPixels);
+        System.out.println("Empty pixels : " + emptyPixels);
         double procenti = ((double)emptyPixels / (650.0 * 450.0)) * 100.0;
-        //System.out.println("Procenti: " + (int)procenti + "%  (Slobodna povrsina)");
+        System.out.println("Procenti: " + (int)procenti + "%  (Slobodna povrsina)");
     }
 
     public void setScaleFactor(double scaleFactor) {
