@@ -10,15 +10,15 @@ public class SecondEmptySpaceCalculateStrategy implements EmptySpaceStrategy {
     @Override
     public int calculateEmptySpace(ArrayList<GraffNode> elements, int w, int h) {
         int[][] matrix = new int[w + 1][h + 1];
-        for (int i=0;i<650;i++) for (int j=0;j<450;j++) matrix[i][j] = 0;
+        for (int i=0;i<=w;i++) for (int j=0;j<=h;j++) matrix[i][j] = 0;
         for (GraffNode child : elements) {
             GraffSlideElement element = (GraffSlideElement) child;
             int x1 = (int) element.getLocation().getX();
             int y1 = (int) element.getLocation().getY();
             int x2 = x1 + (int) element.getDimension().getWidth();
             int y2 = y1 + (int) element.getDimension().getHeight();
-            for (int i=x1;i<=x2;i++){
-                for (int j=y1;j<=y2;j++){
+            for (int i=Math.max(0, x1);i<=Math.min(w, x2);i++){
+                for (int j=Math.max(0, y1);j<=Math.min(h, y2);j++){
                     matrix[i][j] = 1;
                 }
             }

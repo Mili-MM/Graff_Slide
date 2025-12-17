@@ -31,6 +31,7 @@ public class SlideController implements MouseListener, MouseMotionListener, Acti
     private SlideView slideView; //view
     private StateManager stateManager;
     private CommandManager commandManager;
+    private double emptySpacePercentage = 100;
 
     public SlideController(GraffNode slide, SlideView slideView, StateManager stateManager, CommandManager commandManager) {
         this.slide = slide;
@@ -122,9 +123,11 @@ public class SlideController implements MouseListener, MouseMotionListener, Acti
             String imagePath = "/images/" + fileName;
             ImageElement el = new ImageElement(slide, new Point(50, 50), new Dimension(100, 100), img);
             el.setImagePath(imagePath);
-            AddCommand addCommand = new AddCommand((GraffNodeComposite) slide, el);
-            commandManager.executeCommand(addCommand);
-            updateView();
+            if (emptySpacePercentage >= 20) {
+                AddCommand addCommand = new AddCommand((GraffNodeComposite) slide, el);
+                commandManager.executeCommand(addCommand);
+                updateView();
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -133,18 +136,19 @@ public class SlideController implements MouseListener, MouseMotionListener, Acti
     private void addLogo() {
         try {
             GraffNode logoElement = new LogoElement(slide, new Point(100, 100), new Dimension(100, 100));
-            AddCommand addCommand = new AddCommand((GraffNodeComposite) slide, logoElement);
-            commandManager.executeCommand(addCommand);
-            updateView();
+            if (emptySpacePercentage >= 20) {
+                AddCommand addCommand = new AddCommand((GraffNodeComposite) slide, logoElement);
+                commandManager.executeCommand(addCommand);
+                updateView();
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
     private void addLocalImage() throws IOException {
-        System.out.println("pokusavam da otvorim sliku");
+        //System.out.println("pokusavam da otvorim sliku");
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Otvori JSON projekat");
 
         int userSelection = fileChooser.showOpenDialog(MainFrame.getInstance());
         fileChooser.setDialogTitle("Izaberite sliku");
@@ -171,9 +175,11 @@ public class SlideController implements MouseListener, MouseMotionListener, Acti
             BufferedImage img = proxyImage.display();
             ImageElement el = new ImageElement(slide, new Point(50, 50), new Dimension(img.getWidth(), img.getHeight()), img);
             el.setImagePath(fileToLoad.getAbsolutePath());
-            AddCommand addCommand = new AddCommand((GraffNodeComposite) slide, el);
-            commandManager.executeCommand(addCommand);
-            updateView();
+            if (emptySpacePercentage >= 20) {
+                AddCommand addCommand = new AddCommand((GraffNodeComposite) slide, el);
+                commandManager.executeCommand(addCommand);
+                updateView();
+            }
         }
     }
 
@@ -195,10 +201,14 @@ public class SlideController implements MouseListener, MouseMotionListener, Acti
         slideView.repaint();
 
         GraffPanelController active = ((GraffPanelView)MainFrame.getInstance().getTabbedPane().getSelectedComponent()).getGraffPanelController();
-        System.out.println("Empty Space:");
-        int emptyPixels = active.getEmptySpaceCalculator().calculateEmptySpace((ArrayList<GraffNode>) ((GraffNodeComposite) slide).getChildren(), slideView.getWindowWidth(), slideView.getWindowHeight());
+        int emptyPixels = active.getEmptySpaceCalculator().calculateEmptySpace(
+                (ArrayList<GraffNode>) ((GraffNodeComposite) slide).getChildren(),
+                (int)((double)slideView.getWindowWidth() * slideView.getScaleFactor()),
+                (int)((double)slideView.getWindowHeight() * slideView.getScaleFactor()));
+
         System.out.println("Empty pixels : " + emptyPixels);
         double procenti = ((double)emptyPixels / (650.0 * 450.0)) * 100.0;
+        emptySpacePercentage = procenti;
         System.out.println("Procenti: " + (int)procenti + "%  (Slobodna povrsina)");
     }
 
