@@ -97,15 +97,15 @@ public class SlideController implements MouseListener, MouseMotionListener, Acti
                     throw new RuntimeException(ex);
                 }
                 break;
-            case "img1":
-                addImage("sundjerbob.png");
-                break;
-            case "img2":
-                addImage("exit.png");
-                break;
-            case "img3":
-                addImage("patrik.png");
-                break;
+//            case "img1":
+//                addImage("sundjerbob.png");
+//                break;
+//            case "img2":
+//                addImage("exit.png");
+//                break;
+//            case "img3":
+//                addImage("patrik.png");
+//                break;
             case "logo":
                 addLogo();
                 break;
@@ -203,11 +203,13 @@ public class SlideController implements MouseListener, MouseMotionListener, Acti
         GraffPanelController active = ((GraffPanelView)MainFrame.getInstance().getTabbedPane().getSelectedComponent()).getGraffPanelController();
         int emptyPixels = active.getEmptySpaceCalculator().calculateEmptySpace(
                 (ArrayList<GraffNode>) ((GraffNodeComposite) slide).getChildren(),
-                (int)((double)slideView.getWindowWidth() * slideView.getScaleFactor()),
-                (int)((double)slideView.getWindowHeight() * slideView.getScaleFactor()));
+                slideView.getWindowWidth(),
+                slideView.getWindowHeight()
+        );
+
 
         System.out.println("Empty pixels : " + emptyPixels);
-        double procenti = ((double)emptyPixels / (650.0 * 450.0)) * 100.0;
+        double procenti = ((double)emptyPixels / (double) (slideView.getWindowWidth() * slideView.getWindowHeight())) * 100.0;
         emptySpacePercentage = procenti;
         System.out.println("Procenti: " + (int)procenti + "%  (Slobodna povrsina)");
     }

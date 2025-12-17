@@ -15,9 +15,9 @@ public class SlideElementsBox extends JPanel {
 
 
         createButton("/images/addpicture.png", "addLocalImage");
-        createButton("/images/sundjerbob.png", "img1");
-        createButton("/images/exit.png", "img2");
-        createButton("/images/patrik.png", "img3");
+//        createButton("/images/sundjerbob.png", "img1");
+//        createButton("/images/exit.png", "img2");
+//        createButton("/images/patrik.png", "img3");
         createButton("/images/slide.png", "logo");
         createButton("/images/text.png", "text");
 
