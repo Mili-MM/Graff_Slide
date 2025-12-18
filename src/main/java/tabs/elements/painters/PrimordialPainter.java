@@ -2,6 +2,7 @@ package tabs.elements.painters;
 
 
 import lombok.Getter;
+import lombok.Setter;
 import tabs.elements.GraffSlideElement;
 
 import java.awt.*;

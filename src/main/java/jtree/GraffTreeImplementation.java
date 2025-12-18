@@ -7,6 +7,7 @@ import jtree.panels.ColorChoserPanel;
 import jtree.panels.ConfirmPanel;
 import jtree.model.GraffTreeItem;
 import jtree.view.GraffTreeView;
+import lombok.Getter;
 import raf.graffito.dsw.gui.swing.MainFrame;
 import repository.graff_components.GraffLeaf;
 import repository.graff_components.GraffNode;
@@ -36,6 +37,7 @@ public class GraffTreeImplementation implements GraffTree, INodeChangePublisher 
     private DefaultTreeModel treeModel;
     private List<INodeChangeSubscriber> subs = new ArrayList<>();
     private GraffRepositoryFactory graffFactory = new GraffRepositoryFactory();
+    @Getter
     private GraffTreeItem root;
 
     @Override
@@ -55,6 +57,9 @@ public class GraffTreeImplementation implements GraffTree, INodeChangePublisher 
             return;
         }
         if (parent.getGraffNode() instanceof GraffLeaf) return;
+        if (parent.getGraffNode().getType() == GraffNodeType.PROJECT){
+            ((Project) parent.getGraffNode()).setModified(true);
+        }
 
         GraffNode child = createChild(parent.getGraffNode());
         if (parent.getGraffNode().getType() == GraffNodeType.WORKSPACE) {
@@ -75,7 +80,7 @@ public class GraffTreeImplementation implements GraffTree, INodeChangePublisher 
                 return;
             }
 
-            child = new GraffNodeColorDecorator(child, color);
+            ((Project) child).setColor(color);
         }
         updateAll(child, NotificationType.ADD);
         GraffTreeItem childWrapper = new GraffTreeItem(child);
@@ -100,6 +105,10 @@ public class GraffTreeImplementation implements GraffTree, INodeChangePublisher 
             return;
         }
 
+        if (parent.getGraffNode().getType() == GraffNodeType.PROJECT){
+            ((Project) parent.getGraffNode()).setModified(true);
+        }
+
         updateAll(node.getGraffNode(), NotificationType.DELETE);
         parent.remove(node);
         graffTreeView.expandPath(graffTreeView.getSelectionPath());
@@ -108,6 +117,9 @@ public class GraffTreeImplementation implements GraffTree, INodeChangePublisher 
 
     @Override
     public void editNode(GraffTreeItem target, String title, String author) {
+        if (target.getGraffNode().getType() == GraffNodeType.PROJECT){
+            ((Project) target.getGraffNode()).setModified(true);
+        }
         target.editNode(title, author);
         updateAll(target.getGraffNode(), NotificationType.EDIT);
         graffTreeView.expandPath(graffTreeView.getSelectionPath());
@@ -205,5 +217,10 @@ public class GraffTreeImplementation implements GraffTree, INodeChangePublisher 
     @Override
     public void removeSubscriber(INodeChangeSubscriber sub) {
         if (subs.contains(sub)) subs.remove(sub);
+    }
+
+    public void updateTree(){
+        //graffTreeView.expandPath(graffTreeView.getSelectionPath());
+        SwingUtilities.updateComponentTreeUI(graffTreeView);
     }
 }

@@ -35,6 +35,7 @@ public class TextPainter extends PrimordialPainter {
         double cx = x + width / 2.0;
         double cy = y - fm.getAscent() + height / 2.0;
 
+
         // primena rotacije
         g2.rotate(textElement.getRotacija(), cx, cy);
 

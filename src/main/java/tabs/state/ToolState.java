@@ -1,7 +1,6 @@
 package tabs.state;
 
-import tabs.state.slide.SlideController;
-import tabs.state.slide.SlideView;
+import tabs.state.slide.rightbar.SlideController;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -15,7 +14,7 @@ public interface ToolState {
     void mouseReleased(MouseEvent e, SlideController slideController);
     void mouseWheelMoved(MouseWheelEvent e, SlideController slideController);
 
-    public default Point transformPoint(Point p, AffineTransform currentTransform) {
+    default Point transformPoint(Point p, AffineTransform currentTransform) {
         try {
             AffineTransform inverseTransform = currentTransform.createInverse();
             Point2D.Double src = new Point2D.Double(p.x, p.y);

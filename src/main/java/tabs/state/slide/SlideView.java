@@ -7,10 +7,9 @@ import tabs.elements.GraffSlideElement;
 import tabs.elements.element_implementation.ImageElement;
 import tabs.elements.element_implementation.LogoElement;
 import tabs.elements.element_implementation.TextElement;
-import tabs.elements.painters.ImagePainter;
-import tabs.elements.painters.LogoPainter;
+import tabs.elements.painters.*;
 import tabs.elements.painters.Painter;
-import tabs.elements.painters.TextPainter;
+import tabs.mediator.window_modes.WindowModeAbstraction;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,9 +18,13 @@ import java.util.ArrayList;
 
 @Getter @Setter
 public class SlideView extends JPanel {
-    private static final Dimension size = new Dimension(650, 450);
+    private int windowWidth = 650;
+    private int windowHeight = 450;
+    private final Dimension size = new Dimension(windowWidth, windowHeight);
+
     private AffineTransform currentTransform = new AffineTransform();
     private ArrayList<GraffNode> viewComponents = new ArrayList<>();
+    private double scaleFactor = 1;
 
     public SlideView() {
         setPreferredSize(size);
@@ -36,12 +39,13 @@ public class SlideView extends JPanel {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         g2d.setTransform(currentTransform);
+        g2d.scale(scaleFactor, scaleFactor);
+        g2d.drawRect(0, 0, windowWidth, windowHeight);
 
-        // Crtanje svih elemenata
         for (GraffNode child : viewComponents) {
             GraffSlideElement element = (GraffSlideElement) child;
 
-            Painter painter = null;
+            PrimordialPainter painter = null;
 
             if (element instanceof ImageElement) {
                 painter = new ImagePainter((ImageElement) element);
@@ -51,7 +55,6 @@ public class SlideView extends JPanel {
             else if (element instanceof TextElement) {
                 painter = new TextPainter((TextElement) element);
             }
-            // Dodaj ostale tipove elemenata po potrebi
 
             if (painter != null) {
                 painter.paint(g2d);
@@ -62,5 +65,10 @@ public class SlideView extends JPanel {
     public void setScaleFactor(double scaleFactor) {
         currentTransform = new AffineTransform();
         currentTransform.scale(scaleFactor, scaleFactor);
+    }
+
+    public void updateScale(WindowModeAbstraction mode) {
+        scaleFactor = mode.getScale(getParent().getSize(), new Dimension(windowWidth, windowHeight));
+        repaint();
     }
 }

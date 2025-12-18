@@ -4,7 +4,7 @@ import repository.graff_components.GraffNode;
 import repository.graff_components.GraffNodeComposite;
 import tabs.elements.GraffSlideElement;
 import tabs.state.ToolState;
-import tabs.state.slide.SlideController;
+import tabs.state.slide.rightbar.SlideController;
 import tabs.undoredo.command_implementation.MoveCommand;
 
 import java.awt.*;
@@ -47,8 +47,8 @@ public class MoveState implements ToolState {
                 int newY = element.getLocation().y + dy;
 
                 // klipovanje na granice SlideView-a
-                newX = Math.max(0, Math.min(newX, slideController.getSlideView().getWidth() - width));
-                newY = Math.max(0, Math.min(newY, slideController.getSlideView().getHeight() - height));
+//                newX = Math.max(0, Math.min(newX, slideController.getSlideView().getWidth() - width));
+//                newY = Math.max(0, Math.min(newY, slideController.getSlideView().getHeight() - height));
 
                 // izračunaj stvarni pomeraj
                 int actualDx = newX - element.getLocation().x;

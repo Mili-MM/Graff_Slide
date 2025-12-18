@@ -14,7 +14,7 @@ public class LogoElement extends GraffSlideElement {
     @Override
     public GraffSlideElement kopiraj() {
         Point locationCopy = new Point(getLocation().x, getLocation().y);
-        //locationCopy.translate(5, 5);
+        locationCopy.translate(5, 5);
         LogoElement copy = new LogoElement(
                 getParent(),
                 locationCopy,

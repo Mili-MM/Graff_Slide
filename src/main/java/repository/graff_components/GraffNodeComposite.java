@@ -1,11 +1,13 @@
 package repository.graff_components;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
 @Getter
 public abstract class GraffNodeComposite extends GraffNode {
+    @JsonManagedReference
     private List<GraffNode> children = new ArrayList<>();
 
     public GraffNodeComposite(String title, String author, GraffNode parent) {

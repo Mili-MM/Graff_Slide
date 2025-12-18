@@ -5,7 +5,7 @@ import repository.graff_components.GraffNodeComposite;
 import tabs.elements.GraffSlideElement;
 import tabs.elements.element_implementation.TextElement;
 import tabs.state.ToolState;
-import tabs.state.slide.SlideController;
+import tabs.state.slide.rightbar.SlideController;
 import tabs.undoredo.command_implementation.ResizeImageCommand;
 import tabs.undoredo.command_implementation.ResizeTextCommand;
 
@@ -67,15 +67,15 @@ public class ResizeState implements ToolState {
                     newHeight = Math.max(newHeight, 10);
 
                     // ograniči da element ne izađe iz prozora
-                    int x = element.getLocation().x;
-                    int y = element.getLocation().y;
-
-                    if (x + newWidth > viewWidth) {
-                        newWidth = viewWidth - x;
-                    }
-                    if (y + newHeight > viewHeight) {
-                        newHeight = viewHeight - y;
-                    }
+//                    int x = element.getLocation().x;
+//                    int y = element.getLocation().y;
+//
+//                    if (x + newWidth > viewWidth) {
+//                        newWidth = viewWidth - x;
+//                    }
+//                    if (y + newHeight > viewHeight) {
+//                        newHeight = viewHeight - y;
+//                    }
 
                     element.setDimension(new Dimension(newWidth, newHeight));
                 }

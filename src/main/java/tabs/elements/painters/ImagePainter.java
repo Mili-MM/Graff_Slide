@@ -17,14 +17,12 @@ public class ImagePainter extends PrimordialPainter{
     public void paint(Graphics2D g) {
         AffineTransform old = g.getTransform();
 
-        // centar elementa za rotaciju
-        double cx = image.getLocation().x + image.getDimension().width / 2.0;
-        double cy = image.getLocation().y + image.getDimension().height / 2.0;
+        // centar elementa
+        double cx = (image.getLocation().x + image.getDimension().width / 2.0);
+        double cy = (image.getLocation().y + image.getDimension().height / 2.0);
 
-        // primeni rotaciju oko centra
+        // ROTIRANA SLIKA
         g.rotate(image.getRotacija(), cx, cy);
-
-        // nacrtaj sliku
         g.drawImage(
                 image.getImage(),
                 image.getLocation().x,
@@ -34,7 +32,10 @@ public class ImagePainter extends PrimordialPainter{
                 null
         );
 
-        // ako je selektovan, nacrtaj okvir
+        // VRATI TRANSFORMACIJU
+        g.setTransform(old);
+
+        // SELEKCIONI OKVIR (nerotiran)
         if (image.isSelected()) {
             g.setColor(new Color(0, 150, 0));
             g.setStroke(new BasicStroke(3));
@@ -45,8 +46,6 @@ public class ImagePainter extends PrimordialPainter{
                     image.getDimension().height + 4
             );
         }
-
-        // vrati staru transformaciju
-        g.setTransform(old);
     }
+
 }
