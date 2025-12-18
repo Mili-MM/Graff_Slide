@@ -7,6 +7,7 @@ import jtree.panels.ColorChoserPanel;
 import jtree.panels.ConfirmPanel;
 import jtree.model.GraffTreeItem;
 import jtree.view.GraffTreeView;
+import lombok.Getter;
 import raf.graffito.dsw.gui.swing.MainFrame;
 import repository.graff_components.GraffLeaf;
 import repository.graff_components.GraffNode;
@@ -36,10 +37,12 @@ public class GraffTreeImplementation implements GraffTree, INodeChangePublisher 
     private DefaultTreeModel treeModel;
     private List<INodeChangeSubscriber> subs = new ArrayList<>();
     private GraffRepositoryFactory graffFactory = new GraffRepositoryFactory();
+    @Getter
+    private GraffTreeItem root;
 
     @Override
     public GraffTreeView generateTree(Workspace workspace) {
-        GraffTreeItem root = new GraffTreeItem(workspace);
+        root = new GraffTreeItem(workspace);
         treeModel = new DefaultTreeModel(root);
         graffTreeView = new GraffTreeView(treeModel);
         return graffTreeView;
@@ -47,12 +50,16 @@ public class GraffTreeImplementation implements GraffTree, INodeChangePublisher 
 
     @Override
     public void addChild(GraffTreeItem parent) {
+
         if(parent == null){
             ErrorMessage erMsg = new ErrorMessage("Morate izabrati čvor", ErrorType.ERROR, LocalDateTime.now());
             ApplicationFramework.getInstance().getMsgGen().notifyAll(erMsg);
             return;
         }
         if (parent.getGraffNode() instanceof GraffLeaf) return;
+        if (parent.getGraffNode().getType() == GraffNodeType.PROJECT){
+            ((Project) parent.getGraffNode()).setModified(true);
+        }
 
         GraffNode child = createChild(parent.getGraffNode());
         if (parent.getGraffNode().getType() == GraffNodeType.WORKSPACE) {
@@ -73,7 +80,7 @@ public class GraffTreeImplementation implements GraffTree, INodeChangePublisher 
                 return;
             }
 
-            child = new GraffNodeColorDecorator(child, color);
+            ((Project) child).setColor(color);
         }
         updateAll(child, NotificationType.ADD);
         GraffTreeItem childWrapper = new GraffTreeItem(child);
@@ -98,6 +105,10 @@ public class GraffTreeImplementation implements GraffTree, INodeChangePublisher 
             return;
         }
 
+        if (parent.getGraffNode().getType() == GraffNodeType.PROJECT){
+            ((Project) parent.getGraffNode()).setModified(true);
+        }
+
         updateAll(node.getGraffNode(), NotificationType.DELETE);
         parent.remove(node);
         graffTreeView.expandPath(graffTreeView.getSelectionPath());
@@ -106,6 +117,9 @@ public class GraffTreeImplementation implements GraffTree, INodeChangePublisher 
 
     @Override
     public void editNode(GraffTreeItem target, String title, String author) {
+        if (target.getGraffNode().getType() == GraffNodeType.PROJECT){
+            ((Project) target.getGraffNode()).setModified(true);
+        }
         target.editNode(title, author);
         updateAll(target.getGraffNode(), NotificationType.EDIT);
         graffTreeView.expandPath(graffTreeView.getSelectionPath());
@@ -137,6 +151,58 @@ public class GraffTreeImplementation implements GraffTree, INodeChangePublisher 
         return null;
     }
 
+    private GraffTreeItem dfs(GraffTreeItem node, GraffNode target) {
+        if (node == null) return null;
+        if (node.getGraffNode().equals(target)) return node;
+
+        for (int i = 0; i < node.getChildCount(); i++) {
+            GraffTreeItem child = (GraffTreeItem) node.getChildAt(i);
+            GraffTreeItem result = dfs(child, target);
+            if (result != null) return result;
+        }
+
+        return null;
+    }
+
+
+
+    public void addChild(GraffNode parent, GraffNode child){
+        GraffTreeItem parentItem = dfs(root, parent);
+        if (parentItem == null) {
+            System.err.println("Parent not found in tree!");
+            return;
+        }
+        GraffTreeItem childWrapper = new GraffTreeItem(child);
+        parentItem.add(childWrapper);
+
+        graffTreeView.expandPath(graffTreeView.getSelectionPath());
+        SwingUtilities.updateComponentTreeUI(graffTreeView);
+    }
+
+    public void removeChild(GraffNode parent, GraffNode child){
+        GraffTreeItem parentItem = dfs(root, parent);
+        if (parentItem == null) {
+            System.err.println("Parent not found in tree!");
+            return;
+        }
+        GraffTreeItem childWrapper = null;
+        for (int i = 0; i < parentItem.getChildCount(); i++) {
+            GraffTreeItem childNode = (GraffTreeItem) parentItem.getChildAt(i);
+            if (childNode.getGraffNode().equals(child)) {
+                childWrapper = childNode;
+                break;
+            }
+        }
+
+        if (childWrapper != null) {
+            parentItem.remove(childWrapper);
+            graffTreeView.expandPath(graffTreeView.getSelectionPath());
+            SwingUtilities.updateComponentTreeUI(graffTreeView);
+        } else {
+            System.err.println("Child not found in tree!");
+        }
+    }
+
     @Override
     public void updateAll(Object notification, NotificationType type) {
         for (INodeChangeSubscriber sub : subs) sub.update(notification, type);
@@ -151,5 +217,10 @@ public class GraffTreeImplementation implements GraffTree, INodeChangePublisher 
     @Override
     public void removeSubscriber(INodeChangeSubscriber sub) {
         if (subs.contains(sub)) subs.remove(sub);
+    }
+
+    public void updateTree(){
+        //graffTreeView.expandPath(graffTreeView.getSelectionPath());
+        SwingUtilities.updateComponentTreeUI(graffTreeView);
     }
 }

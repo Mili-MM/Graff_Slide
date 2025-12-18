@@ -3,6 +3,7 @@ package repository.graff_node_decorator;
 import repository.graff_components.GraffNode;
 import repository.graff_components.GraffNodeComposite;
 import repository.graff_components.GraffNodeType;
+import repository.graff_implementation.Project;
 
 import java.util.List;
 import java.util.Objects;
@@ -68,5 +69,14 @@ public abstract class GraffNodeDecorator extends GraffNodeComposite {
     @Override
     public int hashCode() {
         return Objects.hashCode(graffNode);
+    }
+
+    public boolean isModified(){
+        if (graffNode instanceof Project) return ((Project) graffNode).isModified();
+        return false;
+    }
+
+    public void setModified(){
+        if (graffNode instanceof Project) ((Project) graffNode).setModified(true);
     }
 }

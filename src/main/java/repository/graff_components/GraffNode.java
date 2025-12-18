@@ -1,10 +1,8 @@
 package repository.graff_components;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
-import raf.graffito.dsw.gui.swing.MainFrame;
-import repository.GraffRepositoryImplementation;
-import repository.graff_implementation.Workspace;
 
 import java.awt.*;
 import java.util.List;
@@ -13,6 +11,7 @@ import java.util.Objects;
 @Getter
 @Setter
 public abstract class GraffNode {
+    @JsonIgnore
     private GraffNode parent;
     private String title;
     private String author;

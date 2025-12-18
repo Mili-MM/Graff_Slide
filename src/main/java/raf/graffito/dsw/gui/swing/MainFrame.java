@@ -6,12 +6,12 @@ import error_handler.observer.Subscriber;
 import jtree.GraffTree;
 import jtree.GraffTreeImplementation;
 import jtree.nodechangeobserver.INodeChangePublisher;
-import jtree.nodechangeobserver.INodeChangeSubscriber;
 import lombok.Getter;
-import lombok.Setter;
 import raf.graffito.dsw.controller.ActionManager;
 import raf.graffito.dsw.core.ApplicationFramework;
-import tabs.GraffTabbedPane;
+import serijalizacija.SerializationImplementation;
+import tabs.graffpanel.GraffTabbedPane;
+import tabs.loadimage.LoadImageView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,6 +26,15 @@ public class MainFrame extends JFrame implements Subscriber {
     private GraffTree tree;
     private GraffTabbedPane tabbedPane;
     private JTree workspace;
+    private SerializationImplementation serijalizator;
+    private LoadImageView ucitaneSlike;
+    private JScrollPane scrollPane;
+
+    //dimensions
+    private int windowHeight = (int)((double)Toolkit.getDefaultToolkit().getScreenSize().height * 0.85);
+    private int windowWidth = (int)((double)Toolkit.getDefaultToolkit().getScreenSize().width * 0.85);
+    private int scrollPaneHeight = 400;
+    private int scrollPaneWidth = 150;
 
     private MainFrame() {
     }
@@ -37,6 +46,7 @@ public class MainFrame extends JFrame implements Subscriber {
     public void initialize() {
         tree = new GraffTreeImplementation();
         workspace = tree.generateTree(ApplicationFramework.getInstance().getGraffRepository().getWorkspace());
+
         JPanel desktop = new JPanel();
         JScrollPane scroll = new JScrollPane(workspace);
         scroll.setMinimumSize(new Dimension(200, 149));
@@ -44,21 +54,27 @@ public class MainFrame extends JFrame implements Subscriber {
         getContentPane().add(split, BorderLayout.CENTER);
         split.setDividerLocation(200);
         split.setOneTouchExpandable(true);
-
+        setResizable(false);
         desktop.setLayout(new BorderLayout());
         tabbedPane = new GraffTabbedPane();
         desktop.add(tabbedPane);
         ((INodeChangePublisher) tree).addSubscriber(tabbedPane);
 
         actionManager = new ActionManager();
-        Toolkit kit = Toolkit.getDefaultToolkit(); // Toolkit omogućava interakciju sa platformom
-        Dimension screenSize = kit.getScreenSize(); // Veličina ekrana
-        int screenHeight = screenSize.height;
-        int screenWidth = screenSize.width;
-        setSize(screenWidth / 2, screenHeight / 2);
+
+        setSize(windowWidth, windowHeight);
         setLocationRelativeTo(null); // Centriranje prozora na ekranu
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Zatvaranje aplikacije pri zatvaranju prozora
         setTitle("Graffito"); // Naslov prozora
+
+        serijalizator = new SerializationImplementation();
+
+        ucitaneSlike = new LoadImageView();
+
+        scrollPane = new JScrollPane(ucitaneSlike);
+        scrollPane.setPreferredSize(new Dimension(scrollPaneWidth, scrollPaneHeight));
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        add(scrollPane, BorderLayout.EAST);
 
         MyMenuBar menu = new MyMenuBar(); // Kreiranje menija
         setJMenuBar(menu); // Postavljanje menija na prozor
@@ -76,5 +92,22 @@ public class MainFrame extends JFrame implements Subscriber {
         else if(errorMessage.getType() == ErrorType.NOTIFY){
             JOptionPane.showMessageDialog(this, errorMessage.getFormatedMessage(), "Notification", JOptionPane.INFORMATION_MESSAGE);
         }
+    }
+
+    public void updateSize(double factor){
+        setSize((int) ((double)windowWidth*factor), (int) ((double)windowHeight*factor));
+        scrollPane.setPreferredSize(new Dimension((int)((double)scrollPaneWidth * factor), (int)((double)scrollPaneHeight * factor)));
+    }
+
+    public void enterFullScreen() {
+        GraphicsDevice device =
+                GraphicsEnvironment
+                        .getLocalGraphicsEnvironment()
+                        .getDefaultScreenDevice();
+
+        dispose();
+
+        device.setFullScreenWindow(this);
+        setVisible(true);
     }
 }

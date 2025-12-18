@@ -1,11 +1,13 @@
 package repository.graff_components;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
 @Getter
 public abstract class GraffNodeComposite extends GraffNode {
+    @JsonManagedReference
     private List<GraffNode> children = new ArrayList<>();
 
     public GraffNodeComposite(String title, String author, GraffNode parent) {
@@ -35,18 +37,23 @@ public abstract class GraffNodeComposite extends GraffNode {
     }
 
     public boolean addChild(GraffNode child) {
-        if (addChildValidation(child)) {
-            children.add(child);
-            return true;
-        }
-        return false;
+        children.add(child);
+        return true;
+//        if (addChildValidation(child)) {
+//            children.add(child);
+//            return true;
+//        }
+//        return false;
     }
 
     public boolean removeChild(GraffNode child) {
-        if (removeChildValidation(child)) {
-            children.remove(child);
-            return true;
-        }
-        return false;
+        children.remove(child);
+        return true;
+//
+//        if (removeChildValidation(child)) {
+//            children.remove(child);
+//            return true;
+//        }
+//        return false;
     }
 }
