@@ -21,7 +21,7 @@ public class TextElement extends GraffSlideElement {
     @Override
     public GraffSlideElement kopiraj() {
         Point locationCopy = new Point(getLocation().x, getLocation().y);
-        //locationCopy.translate(5, 5);
+        locationCopy.translate(5, 5);
         TextElement copy = new TextElement(
                 getParent(),
                 locationCopy,

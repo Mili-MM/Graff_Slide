@@ -12,6 +12,7 @@ public class StateManager {
     private ToolState select;
     private ToolState zoom;
     private ToolState text;
+    private ToolState duplicate;
 
     public StateManager() {
         init();
@@ -24,6 +25,7 @@ public class StateManager {
         select = new SelectState();
         zoom = new ZoomState();
         text = new TextState();
+        duplicate = new DuplicateState();
         currentState = select;
     }
 
@@ -44,5 +46,8 @@ public class StateManager {
     }
     public void setTextState(){
         currentState = text;
+    }
+    public void setDuplicateState(){
+        currentState = duplicate;
     }
 }

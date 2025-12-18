@@ -63,6 +63,9 @@ public class SlideStatesController implements ActionListener {
                 commandManager.redo();
                 updateView();
                 break;
+            case "duplicate":
+                stateManager.setDuplicateState();
+                break;
         }
 
         view.repaint();

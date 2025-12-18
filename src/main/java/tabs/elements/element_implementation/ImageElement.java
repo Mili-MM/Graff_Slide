@@ -23,7 +23,7 @@ public class ImageElement extends GraffSlideElement {
     @Override
     public GraffSlideElement kopiraj() {
         Point locationCopy = new Point(getLocation().x, getLocation().y);
-        //locationCopy.translate(5, 5);
+        locationCopy.translate(5, 5);
         ImageElement copy = new ImageElement(
                 getParent(),
                 locationCopy,

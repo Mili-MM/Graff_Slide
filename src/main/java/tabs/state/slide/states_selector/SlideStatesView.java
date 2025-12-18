@@ -18,6 +18,7 @@ public class SlideStatesView extends JPanel {
     private JButton btnZoom;
     private JButton btnUndo;
     private JButton btnRedo;
+    private JButton btnDuplicate;
 
     public SlideStatesView(ActionListener listener) {
         // Horizontalni raspored
@@ -33,6 +34,7 @@ public class SlideStatesView extends JPanel {
         btnZoom = new JButton("Zoom");
         btnUndo = new JButton("Undo");
         btnRedo = new JButton("Redo");
+        btnDuplicate = new JButton("Duplicate");
 
         // Dodavanje listener-a
         btnSelect.addActionListener(listener);
@@ -53,6 +55,8 @@ public class SlideStatesView extends JPanel {
         btnUndo.setActionCommand("undo");
         btnRedo.addActionListener(listener);
         btnRedo.setActionCommand("redo");
+        btnDuplicate.addActionListener(listener);
+        btnDuplicate.setActionCommand("duplicate");
 
         // Dodavanje dugmadi u panel
         add(btnSelect);
@@ -64,6 +68,7 @@ public class SlideStatesView extends JPanel {
         add(btnZoom);
         add(btnUndo);
         add(btnRedo);
+        add(btnDuplicate);
     }
 
 }
