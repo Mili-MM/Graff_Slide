@@ -7,6 +7,7 @@ import raf.graffito.dsw.gui.swing.MainFrame;
 import repository.graff_components.GraffNode;
 import repository.graff_components.GraffNodeComposite;
 import repository.graff_components.GraffNodeType;
+import repository.graff_implementation.Presentation;
 import tabs.state.slide.rightbar.SlideController;
 import tabs.state.slide.SlideView;
 
@@ -58,6 +59,23 @@ public class GraffTabbedPane extends JTabbedPane implements INodeChangeSubscribe
                 break;
             }
         }
+    }
+
+    public void setSingleSlideView(GraffNode node){
+        for (int i = 0; i < getTabCount(); i++) {
+            GraffPanelController panel = ((GraffPanelView) getComponentAt(i)).getGraffPanelController();
+            if(panel.getNode().equals(node)) {
+                SlideController slideController = new SlideController(node, new SlideView(), panel.getStateManager(), panel.getCommandManager());
+                panel.setSlideController(slideController);
+
+                panel.getView().revalidate();
+                panel.getView().repaint();
+                revalidate();
+                repaint();
+                break;
+            }
+        }
+
     }
 
 

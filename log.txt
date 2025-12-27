@@ -105,3 +105,9 @@ cao
 
 [ERROR][13.12.2025 21:42] Unesite validne brojeve 0-255
 
+[ERROR][27.12.2025 15:13] Ne možete izbrisati Workspace
+
+[ERROR][27.12.2025 19:9] Ne možete izbrisati Workspace
+
+[ERROR][27.12.2025 19:9] Ta boja se vec koristi!
+
