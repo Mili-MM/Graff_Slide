@@ -3,9 +3,11 @@ package tabs.graffpanel;
 import jtree.nodechangeobserver.INodeChangeSubscriber;
 import jtree.nodechangeobserver.NotificationType;
 import lombok.Getter;
+import raf.graffito.dsw.gui.swing.MainFrame;
 import repository.graff_components.GraffNode;
 import repository.graff_components.GraffNodeComposite;
 import repository.graff_components.GraffNodeType;
+import repository.graff_implementation.Presentation;
 import tabs.state.slide.rightbar.SlideController;
 import tabs.state.slide.SlideView;
 
@@ -18,6 +20,7 @@ import java.util.List;
 public class GraffTabbedPane extends JTabbedPane implements INodeChangeSubscriber {
     @Getter
     private List<Color> reservedColors = new ArrayList<>();
+
     public GraffTabbedPane() {
         super();
     }
@@ -32,6 +35,14 @@ public class GraffTabbedPane extends JTabbedPane implements INodeChangeSubscribe
                 addTab(panel.getView());
             }
         }
+    }
+
+    public void addSlideTab(GraffNode child){
+        GraffNodeComposite node = (GraffNodeComposite) child.getParent();
+        GraffPanelController panel = new GraffPanelController(child);
+        Color color = node.getColor();
+        panel.getView().setColor(color);
+        addTab(panel.getView());
     }
 
     public void setSlideView(GraffNode node){
@@ -50,7 +61,25 @@ public class GraffTabbedPane extends JTabbedPane implements INodeChangeSubscribe
         }
     }
 
-    private GraffNode getActiveProject(){
+    public void setSingleSlideView(GraffNode node){
+        for (int i = 0; i < getTabCount(); i++) {
+            GraffPanelController panel = ((GraffPanelView) getComponentAt(i)).getGraffPanelController();
+            if(panel.getNode().equals(node)) {
+                SlideController slideController = new SlideController(node, new SlideView(), panel.getStateManager(), panel.getCommandManager());
+                panel.setSlideController(slideController);
+
+                panel.getView().revalidate();
+                panel.getView().repaint();
+                revalidate();
+                repaint();
+                break;
+            }
+        }
+
+    }
+
+
+    public GraffNode getActiveProject(){
         if (getComponentCount() == 0) return null;
         return (((GraffPanelView) getComponentAt(0)).getGraffPanelController()).getNode().getParent();
     }
